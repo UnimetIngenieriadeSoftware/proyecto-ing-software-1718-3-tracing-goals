@@ -90,7 +90,7 @@ export default class crearCuenta extends Component {
     _changeText(texto)
     {
       console.log('se ha cambiado el texto ha: ' + texto);
-      this.setState(correo: texto);
+      
     }
 
 
