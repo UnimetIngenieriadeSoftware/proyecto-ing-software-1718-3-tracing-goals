@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions
+  Dimensions, Icon, Right, Body
 } from 'react-native'; 
-
+import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
+import crearCuenta from './android/app/components/crearCuenta';
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
 var box_count = 3;
@@ -107,7 +108,7 @@ export default class FlexDimensionsBasics extends Component {
 
 export default class androidApp1 extends Component {
   render(){
-    return(
+    return(/*
         <View style={styles.container}>
 
         <Text> Login </Text>
@@ -116,55 +117,25 @@ export default class androidApp1 extends Component {
 
 
         </View>
+       */
+      /*
+<View style={styles.container}>
+
+<Text> Login </Text>
+
+  
+
+
+</View>
+*/
+      
+      <crearCuenta />
+
     );
   }
 }
 
 
 
-
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: '#525D3B',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  red: {
-    color: 'red',
-  },
-  box: {
-    height: box_height ,
-    width: width, 
-  },
-  box1: {
-    backgroundColor: 'aqua',
-  },
-  box2: {
-    backgroundColor: '#525D3B',
-  },
-  box3: {
-    backgroundColor: 'blue',
-  },
-});
 
 AppRegistry.registerComponent('android', () => androidApp1);
