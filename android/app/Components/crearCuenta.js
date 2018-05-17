@@ -13,6 +13,10 @@ var box_height = height / box_count;
 
 
 export default class crearCuenta extends Component {
+  constructor(props){
+    super(props);
+    this.state = { correo: '', clave: '' };
+  }
     render(){
       return(/*
           <View style={styles.container}>
@@ -49,16 +53,20 @@ export default class crearCuenta extends Component {
             <Content style= {styles.content}>
               <Form >
                 <Item floatingLabel>
-                  <Label>Username</Label>
-                  <Input />
+                  <Label>Correo</Label>
+                  <Input
+                  onChangeText={ this._changeText }
+                  
+                  />
                 </Item>
                 <Item floatingLabel last>
-                  <Label >Password</Label>
-                  <Input />
+                  <Label >Clave</Label>
+                  <Input/>s
                 </Item>
 
                 <Button rounded info 
 
+                
                 onPress= { this._onSignUpPress }
 
                 >
@@ -75,7 +83,14 @@ export default class crearCuenta extends Component {
     _onSignUpPress()
     {
       console.log('The button was pressed');
+      
     }
+
+    _changeText()
+    {
+      console.log('se ha cambiado el texto ha: ');
+    }
+
 
   }
 
