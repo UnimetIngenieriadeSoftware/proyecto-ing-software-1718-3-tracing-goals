@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions, Icon, Right, Body
+  Dimensions, Icon
 } from 'react-native'; 
-import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
 
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
@@ -35,22 +35,48 @@ export default class crearCuenta extends Component {
   </View>
   */
       <Container>
-        <Header style={styles.header} />
+        <Header style={styles.header}>
+        <Left>
+          
+          </Left>
+            <Body>
+              <Title style= {styles.daTitle}> Crear Cuenta </Title>
+
+              </Body>
+
+        </Header>
+
             <Content style= {styles.content}>
               <Form >
-                <Item fixedLabel>
+                <Item floatingLabel>
                   <Label>Username</Label>
                   <Input />
                 </Item>
-                <Item fixedLabel last>
+                <Item floatingLabel last>
                   <Label >Password</Label>
                   <Input />
                 </Item>
+
+                <Button rounded info 
+
+                onPress= { this._onSignUpPress }
+
+                >
+                  <Text>Info</Text>
+                </Button>
               </Form>
             </Content>
       </Container>
       );
     }
+
+    //Crear funcion dentro de render()
+
+    _onSignUpPress()
+    {
+      console.log('The button was pressed');
+    }
+
   }
 
   
@@ -86,7 +112,7 @@ export default class crearCuenta extends Component {
       width: width, 
     },
     content: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: '#f2f4fc',
     },
     box2: {
       backgroundColor: '#525D3B',
@@ -95,8 +121,13 @@ export default class crearCuenta extends Component {
       backgroundColor: 'blue',
     },
     header: {
-      backgroundColor: '#525D3B',
+      backgroundColor: '#344169',
     },
+    daTitle: {
+      fontSize: 18,
+      textAlign: 'center',
+      color: 'white',
+    }
   });
 
 

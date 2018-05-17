@@ -3,7 +3,7 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
   Dimensions, Icon, Right, Body
 } from 'react-native'; 
 import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
-import crearCuenta from './android/app/components/crearCuenta';
+import CrearCuenta from './android/app/Components/crearCuenta';
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
 var box_count = 3;
@@ -128,8 +128,10 @@ export default class androidApp1 extends Component {
 
 </View>
 */
-      
-      <crearCuenta />
+      <Container>
+        <CrearCuenta />
+
+      </Container>
 
     );
   }
