@@ -4,6 +4,7 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
 } from 'react-native'; 
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
 
+
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
 var box_count = 3;
@@ -15,9 +16,13 @@ var box_height = height / box_count;
 export default class crearCuenta extends Component {
   constructor(props){
     super(props);
-    this.state = { correo: 'll', clave: '', };
+    this.state = {
+      correo: ''
+    };
   }
     render(){
+      let correoVar = '';
+      let claveVar = '';
       return(/*
           <View style={styles.container}>
   
@@ -38,43 +43,52 @@ export default class crearCuenta extends Component {
   
   </View>
   */
-      <Container>
-        <Header style={styles.header}>
-        <Left>
+ <Container>
+ <Header style={styles.header}>
+  <Left>
+  </Left>
+      <Body>
+          <Title style= {styles.daTitle}> Crear Cuenta </Title>
+      </Body>
+  </Header>
+
+ <Content style= {styles.content}>
+   <Form>
+     <Item floatingLabel>
+       <Label>Correo</Label>
+       <Input 
+       onChangeText={(text) => {
+        this._changeTextCorreo(text);
+        correoVar = text;
+      }}
+      /*value= {this.state.correo}*/
+       />
+     </Item>
+     <Item floatingLabel last>
+       <Label>Clave</Label>
+       <Input 
+       onChangeText={(text) => {
+        this._changeTextClave(text);
+        claveVar = text;
+      }}
+       />
+     </Item>
+     <Button large rounded
+          onPress= {() => {
+            this.setState(previousState => {
+              return { correo: correoVar, clave: claveVar };
+            });
+          } }
+     >
+     <Label> Crear </Label>
+          </Button>
+      
           
-          </Left>
-            <Body>
-              <Title style= {styles.daTitle}> Crear Cuenta </Title>
 
-              </Body>
-
-        </Header>
-
-            <Content style= {styles.content}>
-              <Form >
-                <Item floatingLabel>
-                  <Label>Correo</Label>
-                  <Input
-                  onChangeText={(text) => this._changeText(text) }
-                  value= {this.state.correo}
-                  />
-                </Item>
-                <Item floatingLabel last>
-                  <Label >Clave</Label>
-                  <Input/>s
-                </Item>
-
-                <Button rounded info 
-
-                
-                onPress= { this._onSignUpPress }
-
-                >
-                  <Text>Info</Text>
-                </Button>
-              </Form>
-            </Content>
-      </Container>
+   </Form>
+ </Content>
+</Container>
+      
       );
     }
 
@@ -82,15 +96,23 @@ export default class crearCuenta extends Component {
 
     _onSignUpPress()
     {
-      console.log('The button was pressed');
-      console.log('El valor de correo es: '+ this.state.correo);
-      
+      console.log('Los datos introducidos son: ');
     }
 
-    _changeText(texto)
+    _changeTextCorreo(texto)
     {
-      console.log('se ha cambiado el texto ha: ' + texto);
-      
+      console.log('se ha cambiado el correo a: ' + texto); 
+    }
+
+    _changeTextClave(texto)
+    {
+      console.log('se ha cambiado la clave a: ' + texto); 
+    }
+
+    _onPressButton(texto){
+      this.setState({
+        correo: texto
+      });
     }
 
 
