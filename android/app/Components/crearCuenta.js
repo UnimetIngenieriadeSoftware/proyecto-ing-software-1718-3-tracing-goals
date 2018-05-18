@@ -3,7 +3,7 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
   Dimensions, Icon
 } from 'react-native'; 
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
-
+import { Col, Row, Grid } from 'react-native-easy-grid';
 
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
@@ -46,6 +46,8 @@ export default class crearCuenta extends Component {
  <Container>
  <Header style={styles.header}>
   <Left>
+    
+
   </Left>
       <Body>
           <Title style= {styles.daTitle}> Crear Cuenta </Title>
@@ -64,7 +66,7 @@ export default class crearCuenta extends Component {
       /*value= {this.state.correo}*/
        />
      </Item>
-     <Item floatingLabel last>
+     <Item floatingLabel last style= {styles.itemClave}>
        <Label>Clave</Label>
        <Input 
        onChangeText={(text) => {
@@ -73,16 +75,29 @@ export default class crearCuenta extends Component {
       }}
        />
      </Item>
-     <Button large rounded
-          onPress= {() => {
-            this.setState(previousState => {
-              return { correo: correoVar, clave: claveVar };
-            });
-          } }
-     >
-     <Label> Crear </Label>
-          </Button>
       
+      <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+        </Grid>
+
+      <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+            
+         
+              <Button full rounded 
+                    onPress= {() => {
+                      this.setState(previousState => {
+                        return { correo: correoVar, clave: claveVar };
+                      });
+                    } }
+              >
+              <Label style= {styles.whiteFont}> Crear </Label>
+                    </Button>
+
+
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+
+      </Grid>
           
 
    </Form>
@@ -166,7 +181,14 @@ export default class crearCuenta extends Component {
       fontSize: 18,
       textAlign: 'center',
       color: 'white',
-    }
+    },
+    itemClave: {
+      paddingBottom: 15,
+    },
+    whiteFont: 
+    {
+      color: 'white',
+    },
   });
 
 
