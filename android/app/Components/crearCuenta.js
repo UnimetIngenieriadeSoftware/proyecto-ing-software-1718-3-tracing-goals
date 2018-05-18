@@ -5,12 +5,15 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
+
+
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
 var box_count = 3;
 var box_height = height / box_count;
 
-
+import Icon1 from 'react-native-vector-icons/Entypo';
+//aqui me quede, tengo que encontrar la manera de poner el icono para ir para atras en la parte left
 
 
 export default class crearCuenta extends Component {
@@ -46,7 +49,10 @@ export default class crearCuenta extends Component {
  <Container>
  <Header style={styles.header}>
   <Left>
+    <Button>
     
+
+    </Button>
 
   </Left>
       <Body>
