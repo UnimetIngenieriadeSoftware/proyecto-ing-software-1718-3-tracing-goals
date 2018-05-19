@@ -4,7 +4,7 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
 } from 'react-native'; 
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-
+import GoBackIcon from 'react-native-vector-icons/Entypo';
 
 
 var { height } = Dimensions.get('window');
@@ -49,8 +49,9 @@ export default class crearCuenta extends Component {
  <Container>
  <Header style={styles.header}>
   <Left>
-    <Button>
-    
+    <Button rounded transparent>
+      <GoBackIcon name='chevron-with-circle-left' size={30} color = 'black'>
+      </GoBackIcon >
 
     </Button>
 
@@ -181,7 +182,7 @@ export default class crearCuenta extends Component {
       backgroundColor: 'blue',
     },
     header: {
-      backgroundColor: '#344169',
+      backgroundColor: '#3f51b5',
     },
     daTitle: {
       fontSize: 18,
