@@ -9,34 +9,60 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View, 
+  Button
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+//Aqui se creo el component createStackNavigator
+import {createStackNavigator} from 'react-navigation';
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+//Aqui se crea la clase HomeScreen que sera donde estara el contenido
+class HomeScreen extends Component {
+  render(){
+    return(
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Home Screen</Text>
+          <Button
+            title="Go to details"
+            onPress={() => this.props.navigation.navigate('Details')}
+          />
       </View>
     );
   }
 }
+
+
+//Clase donde se muestra los detalles
+class DetailsScreen extends Component {
+  render(){
+    return(
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Details Screen</Text>
+      </View>
+    );
+  }
+}
+
+//funcion createStackNavigator que devuelve un componente y lo guardo en
+//createStackNavigator
+const RootStack = createStackNavigator(
+  {//Home sera HomeScreen, que es el componente HomeScreen
+    Home: HomeScreen,
+    Details: DetailsScreen,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+export default class App extends Component {
+  render(){
+    return <RootStack />
+  }
+}
+
+
+
 
 const styles = StyleSheet.create({
   container: {
