@@ -13,8 +13,6 @@ var box_count = 3;
 var box_height = height / box_count;
 
 import Icon1 from 'react-native-vector-icons/Entypo';
-//aqui me quede, tengo que encontrar la manera de poner el icono para ir para atras en la parte left
-
 
 export default class login extends Component {
   constructor(props){

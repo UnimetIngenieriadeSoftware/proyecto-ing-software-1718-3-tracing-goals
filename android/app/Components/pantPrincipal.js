@@ -76,9 +76,6 @@ export default class pantPrincipal extends Component {
          
               <Button full rounded 
                     onPress= {() => {
-                      this.setState(previousState => {
-                        return { correo: correoVar, clave: claveVar };
-                      });
                     } }
               >
               <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
@@ -100,7 +97,6 @@ export default class pantPrincipal extends Component {
 
        <Grid>
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-            
          
               <Button full rounded 
                     onPress= {() => {
