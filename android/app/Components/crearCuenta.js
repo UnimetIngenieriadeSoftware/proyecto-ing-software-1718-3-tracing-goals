@@ -20,7 +20,8 @@ export default class crearCuenta extends Component {
   constructor(props){
     super(props);
     this.state = {
-      correo: ''
+      correo: '',
+      clave: '',
     };
   }
     render(){
@@ -109,6 +110,11 @@ export default class crearCuenta extends Component {
 
    </Form>
  </Content>
+  <Text> Correo introducido: {this.state.correo} </Text>
+  <Text> Clave introducida: {this.state.clave} </Text>
+                    
+
+
 </Container>
       
       );
