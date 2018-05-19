@@ -13,8 +13,10 @@ var box_count = 3;
 var box_height = height / box_count;
 
 import Icon1 from 'react-native-vector-icons/Entypo';
+//aqui me quede, tengo que encontrar la manera de poner el icono para ir para atras en la parte left
 
-export default class crearCuenta extends Component {
+
+export default class login extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -56,7 +58,7 @@ export default class crearCuenta extends Component {
 
   </Left>
       <Body>
-          <Title style= {styles.daTitle}> Crear Cuenta </Title>
+          <Title style= {styles.daTitle}> Iniciar Sesion </Title>
       </Body>
   </Header>
 
@@ -97,7 +99,7 @@ export default class crearCuenta extends Component {
                       });
                     } }
               >
-              <Label style= {styles.whiteFont}> Crear </Label>
+              <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
                     </Button>
 
 
@@ -199,4 +201,4 @@ export default class crearCuenta extends Component {
 
 
 
-AppRegistry.registerComponent('crearCuenta', () => crearCuenta);
+AppRegistry.registerComponent('login', () => login);

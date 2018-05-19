@@ -5,7 +5,7 @@ import {Platform, StyleSheet, Text, View, Image, AppRegistry,
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
-
+import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
@@ -14,17 +14,15 @@ var box_height = height / box_count;
 
 import Icon1 from 'react-native-vector-icons/Entypo';
 
-export default class crearCuenta extends Component {
+
+
+export default class pantPrincipal extends Component {
   constructor(props){
     super(props);
     this.state = {
-      correo: '',
-      clave: '',
     };
   }
     render(){
-      let correoVar = '';
-      let claveVar = '';
       return(/*
           <View style={styles.container}>
   
@@ -48,42 +46,28 @@ export default class crearCuenta extends Component {
  <Container>
  <Header style={styles.header}>
   <Left>
-    <Button rounded transparent>
-      <GoBackIcon name='chevron-with-circle-left' size={30} color = 'white'>
-      </GoBackIcon >
 
-    </Button>
 
   </Left>
       <Body>
-          <Title style= {styles.daTitle}> Crear Cuenta </Title>
+          <Title style= {styles.daTitle}> Tracing Goals </Title>
       </Body>
   </Header>
 
  <Content style= {styles.content}>
-   <Form>
-     <Item floatingLabel>
-       <Label>Correo</Label>
-       <Input 
-       onChangeText={(text) => {
-        this._changeTextCorreo(text);
-        correoVar = text;
-      }}
-      /*value= {this.state.correo}*/
-       />
-     </Item>
-     <Item floatingLabel last style= {styles.itemClave}>
-       <Label>Clave</Label>
-       <Input 
-       onChangeText={(text) => {
-        this._changeTextClave(text);
-        claveVar = text;
-      }}
-       />
-     </Item>
-      
-      <Grid>
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+
+       <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 100, width: width}}></Col>
+        </Grid>
+        
+        <Grid>
+        <Col style={{ backgroundColor: 'black', height: 70, width: 55}}></Col>
+
+
+          <StarIcon name='star-circle' size={45} color= 'green'>
+          <Text> al final dejo la portada. </Text>
+      </StarIcon>
+
         </Grid>
 
       <Grid>
@@ -97,38 +81,50 @@ export default class crearCuenta extends Component {
                       });
                     } }
               >
-              <Label style= {styles.whiteFont}> Crear </Label>
+              <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
                     </Button>
 
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
 
       </Grid>
-          
 
-   </Form>
+
+      <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 85, width: width}}></Col>
+
+      </Grid>
+
+
+
+
+       <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+            
+         
+              <Button full rounded 
+                    onPress= {() => {
+                      this.setState(previousState => {
+                        return { correo: correoVar, clave: claveVar };
+                      });
+                    } }
+              >
+              <Label style= {styles.whiteFont}> Crear Cuenta </Label>
+                    </Button>
+
+
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+
+      </Grid>             
+
+
+
  </Content>         
 </Container>
       
       );
     }
 
-    //Crear funcion dentro de render()
-
-    _onSignUpPress()
-    {
-      console.log('Los datos introducidos son: ');
-    }
-
-    _changeTextCorreo(texto)
-    {
-      console.log('se ha cambiado el correo a: ' + texto); 
-    }
-
-    _changeTextClave(texto)
-    {
-      console.log('se ha cambiado la clave a: ' + texto); 
-    }
 
     _onPressButton(texto){
       this.setState({
@@ -199,4 +195,4 @@ export default class crearCuenta extends Component {
 
 
 
-AppRegistry.registerComponent('crearCuenta', () => crearCuenta);
+AppRegistry.registerComponent('pantPrincipal', () => pantPrincipal);
