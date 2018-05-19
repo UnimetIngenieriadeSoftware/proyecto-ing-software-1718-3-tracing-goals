@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "106255835275",
+    "firebase_url": "https://tracing-goals.firebaseio.com",
+    "project_id": "tracing-goals",
+    "storage_bucket": "tracing-goals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106255835275:android:ed793c199500e8de",
+        "android_client_info": {
+          "package_name": "com.reactapp9"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106255835275-vtk8kn1vq3r70sktnjgut2e743idr91q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABJ3EJL85o7q3edL-V7Ov_Q1VKCH3efKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
