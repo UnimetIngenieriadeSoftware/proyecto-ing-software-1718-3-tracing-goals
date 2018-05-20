@@ -6,6 +6,12 @@ import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CalendarIcon from 'react-native-vector-icons/FontAwesome';
+import BookIcon from 'react-native-vector-icons/Entypo';
+import BarGraphIcon from 'react-native-vector-icons/Entypo';
+import GraduationCap from 'react-native-vector-icons/Entypo';
+import ComputerIcon from 'react-native-vector-icons/Ionicons';
+
 
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
@@ -14,11 +20,9 @@ var box_height = height / box_count;
 
 import Icon1 from 'react-native-vector-icons/Entypo';
 
-
 import {createStackNavigator} from 'react-navigation';
 
 import * as firebase from 'firebase';
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyDcDWruB9X2-DsgPIUyTmvWMeeJtZO3Xtw",
@@ -71,9 +75,6 @@ class pantPrincipal extends Component {
   
   <Text> Login </Text>
   
-    
-  
-  
   </View>
   */
  <Container>
@@ -85,12 +86,29 @@ class pantPrincipal extends Component {
         </Grid>
         
         <Grid>
-        <Col style={{ backgroundColor: 'black', height: 70, width: 55}}></Col>
+          
+        <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 50}}></Col>
 
+        <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
+        </BarGraphIcon>
 
-          <StarIcon name='star-circle' size={45} color= 'green'>
-          <Text> al final dejo la portada. </Text>
-      </StarIcon>
+        <CalendarIcon name='calendar' size={45} color= 'gold'>
+        </CalendarIcon>
+
+        <StarIcon name='star-circle' size={45} color= 'dodgerblue'>
+        </StarIcon>
+
+        <GraduationCap name='graduation-cap' size={45} color='black'>
+        </GraduationCap>
+
+        <BookIcon name='open-book' size={45} color= 'darkolivegreen'>
+        </BookIcon>
+
+        <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
+        </ComputerIcon>
+
+        <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
+
 
         </Grid>
 
@@ -116,9 +134,6 @@ class pantPrincipal extends Component {
 
       </Grid>
 
-
-
-
        <Grid>
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
          
@@ -134,8 +149,6 @@ class pantPrincipal extends Component {
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
 
       </Grid>             
-
-
 
  </Content>         
 </Container>
@@ -166,26 +179,7 @@ class pantPrincipal extends Component {
       render(){
         let correoVar = '';
         let claveVar = '';
-        return(/*
-            <View style={styles.container}>
-    
-            <Text> Login </Text>
-    
-              
-    
-    
-            </View>
-           */
-          /*
-    <View style={styles.container}>
-    
-    <Text> Login </Text>
-    
-      
-    
-    
-    </View>
-    */
+        return(
    <Container>
   
    <Content style= {styles.content}>
@@ -197,7 +191,6 @@ class pantPrincipal extends Component {
           this._changeTextCorreo(text);
           correoVar = text;
         }}
-        /*value= {this.state.correo}*/
          />
        </Item>
        <Item floatingLabel last style= {styles.itemClave}>
@@ -302,7 +295,6 @@ class pantPrincipal extends Component {
           correo: correoVar
         })
       }}
-      /*value= {this.state.correo}*/
        />
      </Item>
      <Item floatingLabel last style= {styles.itemClave}>
@@ -326,48 +318,8 @@ class pantPrincipal extends Component {
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
          
               <Button full rounded 
-                    onPress={this.handlePress
-
-                      /*
-                      firebase.auth().createUserWithEmailAndPassword(correoVar, claveVar)
-                      .then(() => {
-                        this.props.navigation.navigate('Home')
-                      }).catch(error => this.setState({errorMessage: error.message}))
-*/
-
-                    
-                      //this._onSignUpPress 
-                        //no se puede llamar a state afuera de render
-                    //quiero crear la cuenta
-
-
-
-                    }
-                      /*
-                      {
-
-                      this.setState(previousState => {
-                        return { 
-                          correo: correoVar, 
-                          clave: claveVar
-                        };
-                      }); 
-
-
-
-                      console.log(this.state.correo + this.state.clave);
-                      firebase
-                      .auth()
-                      .createUserWithEmailAndPassword(this.state.correo,
-                      this.state.clave).then(() => this.props.navigation.navigate('Home'))
-                      .catch(error => this.setState({ errorMessage: error.message
-                      }))
-
-                    }
-                  */
-                  
-                  
-              >
+                    onPress={this.handlePress  
+                          }      >
               <Label style= {styles.whiteFont}> Crear </Label>
                     </Button>
 
@@ -382,38 +334,6 @@ class pantPrincipal extends Component {
 </Container>
       
       );
-    }
-
-    //Crear funcion dentro de render()
-
-    _onSignUpPress()
-    {
-      /*
-      this.setState(previousState => {
-        return { 
-          correo: correoVar, 
-          clave: claveVar
-        };
-      }); */
-
-/*
-      this.setState({
-        correo: correoVar,
-        clave: claveVar
-      });
-*/
-
-      //console.log(this.state.correo + this.state.clave);
-
-      /*
-      firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.correo,
-      this.state.clave).then(() => this.props.navigation.navigate('Home'))
-      .catch(error => this.setState({ errorMessage: error.message
-      }))
-*/
-
     }
 
     _changeTextCorreo(texto)
@@ -431,10 +351,6 @@ class pantPrincipal extends Component {
         correo: texto
       });
     }
-
-
-
-
 
    }
 
@@ -514,7 +430,6 @@ class pantPrincipal extends Component {
       color: 'white',
     },
   });
-
 
 
 AppRegistry.registerComponent('laPantalla', () => laPantalla);
