@@ -21,14 +21,15 @@ import * as firebase from 'firebase';
 
 
 const firebaseConfig = {
-    apiKey: "<AIzaSyBG3qOg61RQjw7ynX-H_joarVKnnFxXx30>",
-    authDomain: "<tracing-goals.firebaseapp.com>",
-    databaseURL: "<https://tracing-goals.firebaseio.com>",
+    apiKey: "AIzaSyDcDWruB9X2-DsgPIUyTmvWMeeJtZO3Xtw",
+    authDomain: "tracing-goals.firebaseapp.com",
+    databaseURL: "https://tracing-goals.firebaseio.com",
     storageBucket: "tracing-goals.appspot.com",
 };
 
 //lista de usuarios
 //1. fguzman53000@gmail.com laPrimeraContr456
+//2. guzmanf@correo.unimet.edu.ve 1234567
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
