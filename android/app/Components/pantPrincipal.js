@@ -27,9 +27,10 @@ const firebaseConfig = {
     storageBucket: "tracing-goals.appspot.com",
 };
 
+//lista de usuarios
+//1. fguzman53000@gmail.com laPrimeraContr456
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 
 class pantPrincipal extends Component {
   constructor(props){
@@ -37,6 +38,22 @@ class pantPrincipal extends Component {
     this.state = {
     };
   }
+  
+  //estoy funciona de la siguiente manera:
+  //si usuario no esta loggeado se avanza hacia la pagina de crear
+  //cuenta
+  /*
+  componentDidMount(){
+    //This function is executed just after the render method
+    firebase.auth().onAuthStateChanged(user => {
+      if(user){
+
+      } else {
+        this.props.navigation.navigate('CrearCuenta')
+      }
+    })
+  }
+  */
     render(){
       return(/*
           <View style={styles.container}>
@@ -247,14 +264,23 @@ class pantPrincipal extends Component {
       }
    }
 
-  class crearCuenta extends Component {
-        
+  class crearCuenta extends Component { 
   constructor(props){
     super(props);
     this.state = {
       correo: '',
       clave: '',
     };
+    this.handlePress = this.handlePress.bind(this);
+  }
+  handlePress(){
+    //press to sign up
+    //no esta sirviendo firebase
+    firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
+                      .then(() => {
+                        this.props.navigation.navigate('Home')
+                      }).catch(error => this.setState({errorMessage: error.message}))
+
   }
     render(){
       let correoVar = '';
@@ -271,6 +297,9 @@ class pantPrincipal extends Component {
        onChangeText={(text) => {
         this._changeTextCorreo(text);
         correoVar = text;
+        this.setState({
+          correo: correoVar
+        })
       }}
       /*value= {this.state.correo}*/
        />
@@ -281,6 +310,9 @@ class pantPrincipal extends Component {
        onChangeText={(text) => {
         this._changeTextClave(text);
         claveVar = text;
+        this.setState({
+          clave: claveVar
+        })
       }}
        />
      </Item>
@@ -291,14 +323,49 @@ class pantPrincipal extends Component {
 
       <Grid>
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-            
          
               <Button full rounded 
-                    onPress= {() => {
+                    onPress={this.handlePress
+
+                      /*
+                      firebase.auth().createUserWithEmailAndPassword(correoVar, claveVar)
+                      .then(() => {
+                        this.props.navigation.navigate('Home')
+                      }).catch(error => this.setState({errorMessage: error.message}))
+*/
+
+                    
+                      //this._onSignUpPress 
+                        //no se puede llamar a state afuera de render
+                    //quiero crear la cuenta
+
+
+
+                    }
+                      /*
+                      {
+
                       this.setState(previousState => {
-                        return { correo: correoVar, clave: claveVar };
-                      });
-                    } }
+                        return { 
+                          correo: correoVar, 
+                          clave: claveVar
+                        };
+                      }); 
+
+
+
+                      console.log(this.state.correo + this.state.clave);
+                      firebase
+                      .auth()
+                      .createUserWithEmailAndPassword(this.state.correo,
+                      this.state.clave).then(() => this.props.navigation.navigate('Home'))
+                      .catch(error => this.setState({ errorMessage: error.message
+                      }))
+
+                    }
+                  */
+                  
+                  
               >
               <Label style= {styles.whiteFont}> Crear </Label>
                     </Button>
@@ -320,7 +387,32 @@ class pantPrincipal extends Component {
 
     _onSignUpPress()
     {
-      console.log('Los datos introducidos son: ');
+      /*
+      this.setState(previousState => {
+        return { 
+          correo: correoVar, 
+          clave: claveVar
+        };
+      }); */
+
+/*
+      this.setState({
+        correo: correoVar,
+        clave: claveVar
+      });
+*/
+
+      //console.log(this.state.correo + this.state.clave);
+
+      /*
+      firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.correo,
+      this.state.clave).then(() => this.props.navigation.navigate('Home'))
+      .catch(error => this.setState({ errorMessage: error.message
+      }))
+*/
+
     }
 
     _changeTextCorreo(texto)
@@ -358,6 +450,9 @@ class pantPrincipal extends Component {
   );
 
   export default class laPantalla extends Component{
+    componentDidMount(){
+      //This function is executed just after the render method.
+    }
     render(){
       return <RootStack />
     }
@@ -421,4 +516,4 @@ class pantPrincipal extends Component {
 
 
 
-AppRegistry.registerComponent('pantPrincipal', () => pantPrincipal);
+AppRegistry.registerComponent('laPantalla', () => laPantalla);
