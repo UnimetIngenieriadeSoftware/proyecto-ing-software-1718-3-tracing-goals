@@ -15,8 +15,23 @@ var box_height = height / box_count;
 import Icon1 from 'react-native-vector-icons/Entypo';
 
 
+import {createStackNavigator} from 'react-navigation';
 
-export default class pantPrincipal extends Component {
+import * as firebase from 'firebase';
+
+
+const firebaseConfig = {
+    apiKey: "<AIzaSyBG3qOg61RQjw7ynX-H_joarVKnnFxXx30>",
+    authDomain: "<tracing-goals.firebaseapp.com>",
+    databaseURL: "<https://tracing-goals.firebaseio.com>",
+    storageBucket: "tracing-goals.appspot.com",
+};
+
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+
+class pantPrincipal extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -44,15 +59,6 @@ export default class pantPrincipal extends Component {
   </View>
   */
  <Container>
- <Header style={styles.header}>
-  <Left>
-
-
-  </Left>
-      <Body>
-          <Title style= {styles.daTitle}> Tracing Goals </Title>
-      </Body>
-  </Header>
 
  <Content style= {styles.content}>
 
@@ -75,7 +81,7 @@ export default class pantPrincipal extends Component {
             
          
               <Button full rounded 
-                    onPress= {() => {
+                    onPress= {() => {this.props.navigation.navigate('Login')
                     } }
               >
               <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
@@ -100,9 +106,7 @@ export default class pantPrincipal extends Component {
          
               <Button full rounded 
                     onPress= {() => {
-                      this.setState(previousState => {
-                        return { correo: correoVar, clave: claveVar };
-                      });
+                      this.props.navigation.navigate('CrearCuenta')
                     } }
               >
               <Label style= {styles.whiteFont}> Crear Cuenta </Label>
@@ -131,7 +135,233 @@ export default class pantPrincipal extends Component {
 
   }
 
+
+    //clase login
+  class login extends Component {
+    constructor(props){
+      super(props);
+      this.state = {
+        correo: '',
+        clave: '',
+      };
+    }
+      render(){
+        let correoVar = '';
+        let claveVar = '';
+        return(/*
+            <View style={styles.container}>
+    
+            <Text> Login </Text>
+    
+              
+    
+    
+            </View>
+           */
+          /*
+    <View style={styles.container}>
+    
+    <Text> Login </Text>
+    
+      
+    
+    
+    </View>
+    */
+   <Container>
   
+   <Content style= {styles.content}>
+     <Form>
+       <Item floatingLabel>
+         <Label>Correo</Label>
+         <Input 
+         onChangeText={(text) => {
+          this._changeTextCorreo(text);
+          correoVar = text;
+        }}
+        /*value= {this.state.correo}*/
+         />
+       </Item>
+       <Item floatingLabel last style= {styles.itemClave}>
+         <Label>Clave</Label>
+         <Input 
+         onChangeText={(text) => {
+          this._changeTextClave(text);
+          claveVar = text;
+        }}
+         />
+       </Item>
+        
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+          </Grid>
+  
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+              
+           
+                <Button full rounded 
+                      onPress= {() => {
+                        this.setState(previousState => {
+                          return { correo: correoVar, clave: claveVar };
+                        });
+                      } }
+                >
+                <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
+                      </Button>
+  
+  
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+  
+        </Grid>
+            
+  
+     </Form>
+   </Content>         
+  </Container>
+        
+        );
+      }
+  
+      //Crear funcion dentro de render()
+  
+      _onSignUpPress()
+      {
+        console.log('Los datos introducidos son: ');
+      }
+  
+      _changeTextCorreo(texto)
+      {
+        console.log('se ha cambiado el correo a: ' + texto); 
+      }
+  
+      _changeTextClave(texto)
+      {
+        console.log('se ha cambiado la clave a: ' + texto); 
+      }
+  
+      _onPressButton(texto){
+        this.setState({
+          correo: texto
+        });
+      }
+   }
+
+  class crearCuenta extends Component {
+        
+  constructor(props){
+    super(props);
+    this.state = {
+      correo: '',
+      clave: '',
+    };
+  }
+    render(){
+      let correoVar = '';
+      let claveVar = '';
+      return(
+ <Container>
+   
+
+ <Content style= {styles.content}>
+   <Form>
+     <Item floatingLabel>
+       <Label>Correo</Label>
+       <Input 
+       onChangeText={(text) => {
+        this._changeTextCorreo(text);
+        correoVar = text;
+      }}
+      /*value= {this.state.correo}*/
+       />
+     </Item>
+     <Item floatingLabel last style= {styles.itemClave}>
+       <Label>Clave</Label>
+       <Input 
+       onChangeText={(text) => {
+        this._changeTextClave(text);
+        claveVar = text;
+      }}
+       />
+     </Item>
+      
+      <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+        </Grid>
+
+      <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+            
+         
+              <Button full rounded 
+                    onPress= {() => {
+                      this.setState(previousState => {
+                        return { correo: correoVar, clave: claveVar };
+                      });
+                    } }
+              >
+              <Label style= {styles.whiteFont}> Crear </Label>
+                    </Button>
+
+
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+
+      </Grid>
+          
+
+   </Form>
+ </Content>         
+</Container>
+      
+      );
+    }
+
+    //Crear funcion dentro de render()
+
+    _onSignUpPress()
+    {
+      console.log('Los datos introducidos son: ');
+    }
+
+    _changeTextCorreo(texto)
+    {
+      console.log('se ha cambiado el correo a: ' + texto); 
+    }
+
+    _changeTextClave(texto)
+    {
+      console.log('se ha cambiado la clave a: ' + texto); 
+    }
+
+    _onPressButton(texto){
+      this.setState({
+        correo: texto
+      });
+    }
+
+
+
+
+
+   }
+
+
+  const RootStack = createStackNavigator(
+    {
+      Home: pantPrincipal,
+      Login: login,
+      CrearCuenta: crearCuenta,
+    },
+    {
+      initialRouteName: 'Home',
+    }
+  );
+
+  export default class laPantalla extends Component{
+    render(){
+      return <RootStack />
+    }
+  }
 
   const styles = StyleSheet.create({
     container: {
