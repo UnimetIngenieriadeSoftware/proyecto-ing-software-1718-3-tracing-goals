@@ -43,40 +43,8 @@ class pantPrincipal extends Component {
     this.state = {
     };
   }
-  
-  //estoy funciona de la siguiente manera:
-  //si usuario no esta loggeado se avanza hacia la pagina de crear
-  //cuenta
-  /*
-  componentDidMount(){
-    //This function is executed just after the render method
-    firebase.auth().onAuthStateChanged(user => {
-      if(user){
-
-      } else {
-        this.props.navigation.navigate('CrearCuenta')
-      }
-    })
-  }
-  */
     render(){
-      return(/*
-          <View style={styles.container}>
-  
-          <Text> Login </Text>
-  
-            
-  
-  
-          </View>
-         */
-        /*
-  <View style={styles.container}>
-  
-  <Text> Login </Text>
-  
-  </View>
-  */
+      return(
  <Container>
 
  <Content style= {styles.content}>
@@ -86,7 +54,6 @@ class pantPrincipal extends Component {
         </Grid>
         
         <Grid>
-          
         <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 50}}></Col>
 
         <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
@@ -108,8 +75,6 @@ class pantPrincipal extends Component {
         </ComputerIcon>
 
         <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
-
-
         </Grid>
 
       <Grid>
@@ -131,11 +96,10 @@ class pantPrincipal extends Component {
 
       <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 85, width: width}}></Col>
-
       </Grid>
 
        <Grid>
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
          
               <Button full rounded 
                     onPress= {() => {
@@ -143,29 +107,16 @@ class pantPrincipal extends Component {
                     } }
               >
               <Label style= {styles.whiteFont}> Crear Cuenta </Label>
-                    </Button>
+              </Button>
 
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-
       </Grid>             
-
  </Content>         
 </Container>
-      
       );
     }
-
-
-    _onPressButton(texto){
-      this.setState({
-        correo: texto
-      });
-    }
-
-
   }
-
 
     //clase login
   class login extends Component {
@@ -175,6 +126,26 @@ class pantPrincipal extends Component {
         correo: '',
         clave: '',
       };
+      this.handlePress = this.handlePress.bind(this);
+    }
+    handlePress(){
+      /*
+      firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
+                        .then(() => {
+                          this.props.navigation.navigate('Home')
+                        }).catch(error => this.setState({errorMessage: error.message}))
+                        */
+                       
+      firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
+      .then((user) => {
+        this.props.navigation.navigate('Home')
+
+      })
+      .catch((error) => {
+        const { code, message } = error;
+      })
+
+      //console.log(this.state.correo + this.state.clave)
     }
       render(){
         let correoVar = '';
@@ -190,6 +161,9 @@ class pantPrincipal extends Component {
          onChangeText={(text) => {
           this._changeTextCorreo(text);
           correoVar = text;
+          this.setState({
+            correo: correoVar
+          })
         }}
          />
        </Item>
@@ -199,6 +173,9 @@ class pantPrincipal extends Component {
          onChangeText={(text) => {
           this._changeTextClave(text);
           claveVar = text;
+          this.setState({
+            clave: claveVar
+          })
         }}
          />
        </Item>
@@ -212,11 +189,8 @@ class pantPrincipal extends Component {
               
            
                 <Button full rounded 
-                      onPress= {() => {
-                        this.setState(previousState => {
-                          return { correo: correoVar, clave: claveVar };
-                        });
-                      } }
+                      onPress={this.handlePress  
+                      }
                 >
                 <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
                       </Button>
@@ -268,8 +242,6 @@ class pantPrincipal extends Component {
     this.handlePress = this.handlePress.bind(this);
   }
   handlePress(){
-    //press to sign up
-    //no esta sirviendo firebase
     firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
                       .then(() => {
                         this.props.navigation.navigate('Home')
