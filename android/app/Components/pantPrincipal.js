@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
   Dimensions, Icon
 } from 'react-native'; 
-import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title, Button} from 'native-base';
+import Button from 'react-native-button';
+import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,6 +39,32 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class pantPrincipal extends Component {
+  static navigationOptions = {
+      title: 'Tracing Goals',
+      headerStyle: {
+        backgroundColor: '#525D3B',
+      },
+      headerTintColor: '#f2f4fc',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+  };
+
+
+
+
+
+//otro modo
+/*
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+
+    return {
+      title: params ? params.otherParam : 'Tracing Goals',
+    }
+  };
+*/
+
   constructor(props){
     super(props);
     this.state = {
@@ -45,6 +72,7 @@ class pantPrincipal extends Component {
   }
     render(){
       return(
+        
  <Container>
 
  <Content style= {styles.content}>
@@ -73,20 +101,26 @@ class pantPrincipal extends Component {
 
         <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
         </ComputerIcon>
-
+        
         <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
         </Grid>
 
       <Grid>
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
             
-         
-              <Button full rounded 
+        
+
+
+              <Button 
                     onPress= {() => {this.props.navigation.navigate('Login')
                     } }
-              >
-              <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
-                    </Button>
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                    Iniciar Sesion
+              </Button>
+              
+              
 
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
@@ -101,14 +135,16 @@ class pantPrincipal extends Component {
        <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
          
-              <Button full rounded 
+              <Button 
                     onPress= {() => {
                       this.props.navigation.navigate('CrearCuenta')
                     } }
+                    containerStyle={{padding: 10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
+                    style={{fontSize: 15, color: '#f2f4fc'}}
               >
-              <Label style= {styles.whiteFont}> Crear Cuenta </Label>
+              Crear Cuenta
               </Button>
-
+              
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
       </Grid>             
@@ -188,13 +224,14 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
               
            
-                <Button full rounded 
+                <Button 
                       onPress={this.handlePress  
                       }
+                      containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
+                      style={{fontSize: 15, color: '#f2f4fc'}}
                 >
-                <Label style= {styles.whiteFont}> Iniciar Sesion </Label>
-                      </Button>
-  
+                Iniciar Sesion
+                </Button>
   
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
   
@@ -290,11 +327,12 @@ class pantPrincipal extends Component {
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
          
               <Button full rounded 
-                    onPress={this.handlePress  
-                          }      >
-              <Label style= {styles.whiteFont}> Crear </Label>
-                    </Button>
-
+                    onPress={this.handlePress}      
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    style={{fontSize: 20, color: '#f2f4fc'}}     
+                          >
+                          Crear
+              </Button>
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
 
@@ -402,6 +440,6 @@ class pantPrincipal extends Component {
       color: 'white',
     },
   });
-
+  
 
 AppRegistry.registerComponent('laPantalla', () => laPantalla);
