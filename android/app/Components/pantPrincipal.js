@@ -50,10 +50,6 @@ class pantPrincipal extends Component {
       },
   };
 
-
-
-
-
 //otro modo
 /*
   static navigationOptions = ({ navigation }) => {
@@ -106,35 +102,12 @@ class pantPrincipal extends Component {
         </Grid>
 
       <Grid>
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-            
-        
-
-
-              <Button 
-                    onPress= {() => {this.props.navigation.navigate('Login')
-                    } }
-                    style={{fontSize: 15, color: '#f2f4fc'}}
-                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
-                    >
-                    Iniciar Sesion
-              </Button>
-              
-              
-
-
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-
+      <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: width}}></Col>
       </Grid>
 
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 54}}></Col>
 
-      <Grid>
-        <Col style={{ backgroundColor: '#f2f4fc', height: 85, width: width}}></Col>
-      </Grid>
-
-       <Grid>
-        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
-         
               <Button 
                     onPress= {() => {
                       this.props.navigation.navigate('CrearCuenta')
@@ -144,9 +117,19 @@ class pantPrincipal extends Component {
               >
               Crear Cuenta
               </Button>
-              
+              <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 35}}></Col>
+              <Button 
+                    onPress= {() => {this.props.navigation.navigate('Login')
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                    Iniciar Sesion
+              </Button>
 
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 75}}></Col>
+
+
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 53}}></Col>
       </Grid>             
  </Content>         
 </Container>
@@ -156,6 +139,17 @@ class pantPrincipal extends Component {
 
     //clase login
   class login extends Component {
+    static navigationOptions = {
+      title: 'Iniciar Sesion',
+      headerStyle: {
+        backgroundColor: '#525D3B',
+      },
+      headerTintColor: '#f2f4fc',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+  };
+
     constructor(props){
       super(props);
       this.state = {
@@ -269,7 +263,19 @@ class pantPrincipal extends Component {
       }
    }
 
-  class crearCuenta extends Component { 
+  class crearCuenta extends Component {
+    static navigationOptions = {
+      title: 'Crear Cuenta',
+      headerStyle: {
+        backgroundColor: '#525D3B',
+      },
+      headerTintColor: '#f2f4fc',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+  };
+
+
   constructor(props){
     super(props);
     this.state = {
