@@ -12,7 +12,8 @@ import BookIcon from 'react-native-vector-icons/Entypo';
 import BarGraphIcon from 'react-native-vector-icons/Entypo';
 import GraduationCap from 'react-native-vector-icons/Entypo';
 import ComputerIcon from 'react-native-vector-icons/Ionicons';
-
+import TrophyIcon from 'react-native-vector-icons/Entypo';
+import DatePicker from 'react-native-datepicker';
 
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
@@ -37,7 +38,6 @@ const firebaseConfig = {
 //2. guzmanf@correo.unimet.edu.ve 1234567
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 
 class pantPrincipal extends Component {
   static navigationOptions = {
@@ -145,7 +145,6 @@ class pantPrincipal extends Component {
   }
 
   class pantPrincipalLogeado extends Component {
-    
     static navigationOptions = ({ navigation }) => ({
         //title: 'Email is: ' + navigation.state.params.emaill ,
         title: 'Tracing Goals',
@@ -158,16 +157,11 @@ class pantPrincipal extends Component {
         },
         headerRight: (
           <Text> </Text>
-          //como poner el nombre del usuario aqui?
-          //creo no se puede porque esta header bar es statica, una vez se carga
-          //al principio cuando se carga la app. ya no es posible cambiarla
         ),
         headerLeft: (
           <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
         ),
     });
-
-
 
 
     /*static navigationOptions = {
@@ -225,28 +219,56 @@ class pantPrincipal extends Component {
   //vistas se cargan al principio del programa 
   //vamos a intentar a ver
       render(){
+        let space = ' '; 
         const { params } = this.props.navigation.state;
         return(
    <Container>
   
    <Content style= {styles.content}>
   
-         <Grid>
-        <Col style={{ backgroundColor: 'black', height: 100, width: width}}></Col>
-          </Grid>
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 60, width: width}}></Col>
+        </Grid>
           
-          <Text> Bienvenido {params.emaill} ! </Text> 
+          <Text> Bienvenido {params.emaill} the width is {width} ! </Text> 
 
          
          
         <Grid>
-        <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: width}}></Col>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+
+          <Button 
+                    onPress= {() => {this.props.navigation.navigate('crearMeta')
+                    this.props.navigation.navigate('crearMeta', { emaill: params.emaill })
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+          >
+                    Nueva Meta {space}
+                    <TrophyIcon name='trophy' size={15} color= 'gold'>
+                    </TrophyIcon>
+          </Button>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+
         </Grid>
   
           <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 54}}></Col>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 146}}></Col>
   
-                <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 35}}></Col>
+          <Button 
+                    onPress= {() => {this.props.navigation.navigate('Login')
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+          >
+                    Hoy {space}  
+                    <CalendarIcon name='calendar' size={15} color= 'gold'>
+                    </CalendarIcon>
+          </Button>
+
+
+
+                <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 146}}></Col>
   
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 53}}></Col>
         </Grid>             
@@ -509,6 +531,222 @@ class pantPrincipal extends Component {
 
    }
 
+   class pantallaCrearMeta extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        //title: 'Email is: ' + navigation.state.params.emaill ,
+        title: 'Crear Meta',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: (
+          <Text> </Text>
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+    });
+
+
+    /*static navigationOptions = {
+        title: 'Tracing Goals',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: (
+          <Text> </Text>
+          //como poner el nombre del usuario aqui?
+          //creo no se puede porque esta header bar es statica, una vez se carga
+          //al principio cuando se carga la app. ya no es posible cambiarla
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+    };
+    */
+  
+  //otro modo
+  /*
+    static navigationOptions = ({ navigation }) => {
+      const { params } = navigation.state;
+  
+      return {
+        title: params ? params.otherParam : 'Tracing Goals',
+      }
+    };
+  */
+  
+    constructor(props){
+      super(props);
+      this.state = {
+        //Esta loggeado o no
+        //lo deje hasta aqui.
+        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+        nombreMeta: '',
+        descripcionMeta: '',
+        numeroPrioridad: 1,
+        fechaCulminacion: '',
+        //ahora hay que hacer la referencia a la base de datos
+      };
+    }
+    onDateChange(date){
+      this.setState({
+        date: date
+      });
+    }
+    componentDidMount(){
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          this.setState({correo: user.email})
+        } else {
+
+        }
+      });
+    }
+  //Creo no va a ser posible mostrar el correo del usuario debido a que todas las 
+  //vistas se cargan al principio del programa 
+  //vamos a intentar a ver
+      render(){
+        let space = ' '; 
+        const { params } = this.props.navigation.state;
+        return(
+   <Container>
+  
+   <Content style= {styles.content}>
+  
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 40, width: width}}></Col>
+        </Grid>
+          
+          <Text> Bienvenido {params.emaill} the width is {width} ! </Text> 
+
+         <Grid>
+          
+          
+
+
+       
+   
+
+   <Content style= {styles.content}>
+     <Form>
+       <Item floatingLabel>
+         <Label>Nombre</Label>
+         <Input 
+         onChangeText={(text) => {
+          this._changeTextCorreo(text);
+          correoVar = text;
+          this.setState({
+            correo: correoVar
+          })
+        }}
+         />
+       </Item>
+       <Item floatingLabel>
+         <Label>Descripcion</Label>
+         <Input 
+         onChangeText={(text) => {
+          this._changeTextClave(text);
+          claveVar = text;
+          this.setState({
+            clave: claveVar
+          })
+        }}
+         />
+       </Item>
+       <Item floatingLabel>
+         <Label>Numero de prioridad</Label>
+         <Input 
+         keyboardType = 'numeric'
+         onChangeText={(text) => {
+          this._changeTextClave(text);
+          claveVar = text;
+          this.setState({
+            clave: claveVar
+          })
+        }}
+         />
+       </Item>
+
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+        </Grid>
+
+        <Item>
+          <Label>Fecha de culminacion </Label>
+       <DatePicker
+       date={this.state.date}
+       placeholder='Fecha de Culminacion'
+       mode='date'
+       onDateChange = {(date) => this.onDateChange(date)}
+       customStyles={{
+        dateIcon: {
+          position: 'absolute',
+          left: 0,
+          top: 4,
+          marginLeft: 0
+        },
+        dateInput: {
+          marginLeft: 36
+        }
+        }}  
+       />
+        </Item>
+        
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+        </Grid>
+
+
+
+       <Grid>
+       <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+          <Button 
+                    onPress= {() => {this.props.navigation.navigate('Login')
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+          >
+                    Crear {space}
+                    <TrophyIcon name='trophy' size={15} color= 'gold'>
+                    </TrophyIcon>
+          </Button>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+
+        </Grid>
+            
+  
+     </Form>
+   </Content>    
+
+
+
+
+
+
+
+        </Grid> 
+         
+        
+                      
+   </Content>         
+  </Container>
+        );
+      }
+    }
+
+
+
+
+
+
 
   const RootStack = createStackNavigator(
     {
@@ -516,6 +754,7 @@ class pantPrincipal extends Component {
       Home2: pantPrincipalLogeado,
       Login: login,
       CrearCuenta: crearCuenta,
+      crearMeta: pantallaCrearMeta,
     },
     {
       initialRouteName: 'Home',
