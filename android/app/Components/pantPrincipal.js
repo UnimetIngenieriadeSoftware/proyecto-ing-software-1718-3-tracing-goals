@@ -38,6 +38,7 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
+
 class pantPrincipal extends Component {
   static navigationOptions = {
       title: 'Tracing Goals',
@@ -48,9 +49,6 @@ class pantPrincipal extends Component {
       headerTitleStyle: {
         fontWeight: 'bold',
       },
-      headerRight: (
-        <Text> Some text here </Text>
-      ),
   };
 
 //otro modo
@@ -70,9 +68,14 @@ class pantPrincipal extends Component {
       //Esta loggeado o no
       //lo deje hasta aqui.
       //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
-      isSignedIn: false
+      isSignedIn: false,
+      userLoggedInDisplay: 'flex',
     };
   }
+  
+//como hago para que cuando se haga login no se muestren mas el boton de crear
+//cuenta??
+
     render(){
       return(
  <Container>
@@ -114,10 +117,10 @@ class pantPrincipal extends Component {
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 54}}></Col>
 
-              <Button 
+              <Button
                     onPress= {() => {
                       this.props.navigation.navigate('CrearCuenta')
-                    } }
+                    } }/*display: {variable que diga si se esta loggeado}*/
                     containerStyle={{padding: 10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
                     style={{fontSize: 15, color: '#f2f4fc'}}
               >
@@ -140,6 +143,123 @@ class pantPrincipal extends Component {
       );
     }
   }
+
+  class pantPrincipalLogeado extends Component {
+    
+    static navigationOptions = ({ navigation }) => ({
+        //title: 'Email is: ' + navigation.state.params.emaill ,
+        title: 'Tracing Goals',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: (
+          <Text> </Text>
+          //como poner el nombre del usuario aqui?
+          //creo no se puede porque esta header bar es statica, una vez se carga
+          //al principio cuando se carga la app. ya no es posible cambiarla
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+    });
+
+
+
+
+    /*static navigationOptions = {
+        title: 'Tracing Goals',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: (
+          <Text> </Text>
+          //como poner el nombre del usuario aqui?
+          //creo no se puede porque esta header bar es statica, una vez se carga
+          //al principio cuando se carga la app. ya no es posible cambiarla
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+    };
+    */
+  
+  //otro modo
+  /*
+    static navigationOptions = ({ navigation }) => {
+      const { params } = navigation.state;
+  
+      return {
+        title: params ? params.otherParam : 'Tracing Goals',
+      }
+    };
+  */
+  
+    constructor(props){
+      super(props);
+      this.state = {
+        //Esta loggeado o no
+        //lo deje hasta aqui.
+        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+        isSignedIn: false,
+        correo: '',
+      };
+    }
+    componentDidMount(){
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          this.setState({correo: user.email})
+        } else {
+
+        }
+      });
+    }
+  //Creo no va a ser posible mostrar el correo del usuario debido a que todas las 
+  //vistas se cargan al principio del programa 
+  //vamos a intentar a ver
+      render(){
+        const { params } = this.props.navigation.state;
+        return(
+   <Container>
+  
+   <Content style= {styles.content}>
+  
+         <Grid>
+        <Col style={{ backgroundColor: 'black', height: 100, width: width}}></Col>
+          </Grid>
+          
+          <Text> Bienvenido {params.emaill} ! </Text> 
+
+         
+         
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: width}}></Col>
+        </Grid>
+  
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 54}}></Col>
+  
+                <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 35}}></Col>
+  
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 53}}></Col>
+        </Grid>             
+   </Content>         
+  </Container>
+        );
+      }
+    }
+
+
+
+
+
 
     //clase login
   class login extends Component {
@@ -172,12 +292,20 @@ class pantPrincipal extends Component {
                        
       firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
       .then((user) => {
-        this.props.navigation.navigate('Home')
+        //creo esta funcion de abajo renderiza otra vez todos los componentes
+        //que estan en navigation. vamos a probarlo FAGG
+
+        //mando a la pagina de navegacion la informacion del email del usuario
+        this.props.navigation.navigate('Home2', { emaill: this.state.correo })
+        //solucion puede ser crear una pantalla principal que sea active solo
+        //despues que el usuario se logee.
 
       })
       .catch((error) => {
         const { code, message } = error;
       })
+
+
 
       //console.log(this.state.correo + this.state.clave)
     }
@@ -198,6 +326,13 @@ class pantPrincipal extends Component {
           this.setState({
             correo: correoVar
           })
+          firebase.auth().onAuthStateChanged(user => {
+            if(user){
+              //Crear una variable global que indique si el usuario esta logeado
+            } else {
+              
+            }
+        })
         }}
          />
        </Item>
@@ -378,6 +513,7 @@ class pantPrincipal extends Component {
   const RootStack = createStackNavigator(
     {
       Home: pantPrincipal,
+      Home2: pantPrincipalLogeado,
       Login: login,
       CrearCuenta: crearCuenta,
     },
