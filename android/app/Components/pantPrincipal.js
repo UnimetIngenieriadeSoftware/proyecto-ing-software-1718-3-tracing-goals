@@ -48,6 +48,9 @@ class pantPrincipal extends Component {
       headerTitleStyle: {
         fontWeight: 'bold',
       },
+      headerRight: (
+        <Text> Some text here </Text>
+      ),
   };
 
 //otro modo
@@ -64,11 +67,14 @@ class pantPrincipal extends Component {
   constructor(props){
     super(props);
     this.state = {
+      //Esta loggeado o no
+      //lo deje hasta aqui.
+      //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+      isSignedIn: false
     };
   }
     render(){
       return(
-        
  <Container>
 
  <Content style= {styles.content}>
@@ -126,8 +132,6 @@ class pantPrincipal extends Component {
                     >
                     Iniciar Sesion
               </Button>
-
-
 
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 53}}></Col>
       </Grid>             
