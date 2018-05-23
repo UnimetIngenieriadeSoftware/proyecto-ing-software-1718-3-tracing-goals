@@ -15,6 +15,9 @@ import ComputerIcon from 'react-native-vector-icons/Ionicons';
 import TrophyIcon from 'react-native-vector-icons/Entypo';
 import DatePicker from 'react-native-datepicker';
 
+
+//firebase.auth.state
+//me devuelve el id del usuario
 var { height } = Dimensions.get('window');
 var { width } = Dimensions.get('window');
 var box_count = 3;
@@ -317,16 +320,37 @@ class pantPrincipal extends Component {
         //creo esta funcion de abajo renderiza otra vez todos los componentes
         //que estan en navigation. vamos a probarlo FAGG
 
+
+        //voy a chequear si puedo hacer una referencia a la base de datos por aqui
+
+
+
+
+        firebase.database().ref('Users/').on('value', snapshot => {
+        console.log(JSON.stringify(snapshot))
+        var values = {}
+        values = JSON.stringify(snapshot)
+          for(i=1;i+<values[].length;values[])
+          {//aqui quede
+
+          }
+
+//Jose me iba a decir como traer la data de firebase y ponerla en una lista
+
+        })
+
+
+
+
+
+
+
+
+
         //mando a la pagina de navegacion la informacion del email del usuario
         this.props.navigation.navigate('Home2', { emaill: this.state.correo })
         //solucion puede ser crear una pantalla principal que sea active solo
         //despues que el usuario se logee.
-
-      })
-      .catch((error) => {
-        const { code, message } = error;
-      })
-
 
 
       //console.log(this.state.correo + this.state.clave)
@@ -442,12 +466,21 @@ class pantPrincipal extends Component {
     this.state = {
       correo: '',
       clave: '',
+      nombre: '',
     };
     this.handlePress = this.handlePress.bind(this);
   }
   handlePress(){
+
+    var database = firebase.database();
+
     firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
                       .then(() => {
+                        //firebase.database().ref('Users/')
+                        //tengo que poner la info en la base de datos
+                        //chequear si se esta leyendo la base de datos
+
+
                         this.props.navigation.navigate('Home')
                       }).catch(error => this.setState({errorMessage: error.message}))
 
@@ -455,12 +488,28 @@ class pantPrincipal extends Component {
     render(){
       let correoVar = '';
       let claveVar = '';
+      let nombreVar = '';
       return(
  <Container>
    
 
  <Content style= {styles.content}>
    <Form>
+
+     <Item floatingLabel>
+       <Label>Nombre y apellido</Label>
+       <Input 
+       onChangeText={(text) => {
+        this._changeTextNombre(text);
+        nombreVar = text;
+        this.setState({
+          nombre: nombreVar,
+        })
+      }}
+       />
+     </Item>
+
+
      <Item floatingLabel>
        <Label>Correo</Label>
        <Input 
@@ -511,6 +560,11 @@ class pantPrincipal extends Component {
 </Container>
       
       );
+    }
+
+    _changeTextNombre(texto)
+    {
+      console.log('se ha cambiado el nombre a: ' + texto); 
     }
 
     _changeTextCorreo(texto)
