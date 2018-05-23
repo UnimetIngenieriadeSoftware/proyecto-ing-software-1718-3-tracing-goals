@@ -242,6 +242,13 @@ class pantPrincipal extends Component {
 
           <Button 
                     onPress= {() => {this.props.navigation.navigate('crearMeta')
+
+                    //se necesita pasar por los params el id de usuario
+                    //como se obtiene id usuario?
+                    //primero tengo que obtener el usuario actual de firebase, obtener su email
+                    //con ese email buscar en la database que id de usuario corresponde.
+                    
+
                     this.props.navigation.navigate('crearMeta', { emaill: params.emaill })
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
@@ -587,6 +594,13 @@ class pantPrincipal extends Component {
 
    }
 
+
+   var nombreMet='';
+   var descrip='';
+   var numeroPrior='';
+   var fechCulm='';
+
+
    class pantallaCrearMeta extends Component {
     static navigationOptions = ({ navigation }) => ({
         //title: 'Email is: ' + navigation.state.params.emaill ,
@@ -685,11 +699,8 @@ class pantPrincipal extends Component {
   //vistas se cargan al principio del programa 
   //vamos a intentar a ver
       render(){
-        let space = ' '; 
-        let nombreMet='';
-        let descrip='';
-        let numeroPrior='';
-        let fechCulm='';
+        var space = ' '; 
+        
         const { params } = this.props.navigation.state;
         return(
    <Container>
@@ -738,7 +749,7 @@ class pantPrincipal extends Component {
          onChangeText={(text) => {
           numeroPrior = text;
           this.setState({
-            descrip: numeroPrior
+            numeroPrioridad: numeroPrior
           });
           console.log('El numero de prioridad se ha cambiado a: '+ numeroPrior);
         }}
@@ -809,17 +820,24 @@ class pantPrincipal extends Component {
                         codigoNuevaMeta=codigoNuevaMeta+1;
                         //en codigoNuevaMeta sale el numero de meta el cual sera
                         //la nueva meta que estoy inicializando.
-                        console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta)
-
-
-                        var array = [];
+                        console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta);
 
 
 
+                        //no puedo acceder a los valores de la nueva meta que ingreso.
+                        console.log(descrip);
 
 
+
+                        //ahora necesito saber el numero de usuario para ingresarlo en la meta
+                        /*
+                        firebase.database().ref('Metas/'+codigoNuevaMeta).set({
+                          descripcion: descrip,
+                          fechaCulminacion: fechCulm,
+                          nombre: nombreMet,
+                          numeroPrioridad: numeroPrior
+                        });*/
                       })
-
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
@@ -829,7 +847,6 @@ class pantPrincipal extends Component {
                     </TrophyIcon>
           </Button>
           <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
-
         </Grid>
             
   
