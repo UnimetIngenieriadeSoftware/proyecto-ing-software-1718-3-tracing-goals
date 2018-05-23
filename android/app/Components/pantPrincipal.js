@@ -307,54 +307,7 @@ class pantPrincipal extends Component {
       };
       this.handlePress = this.handlePress.bind(this);
     }
-    handlePress(){
-      /*
-      firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
-                        .then(() => {
-                          this.props.navigation.navigate('Home')
-                        }).catch(error => this.setState({errorMessage: error.message}))
-                        */
-                       
-      firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
-      .then((user) => {
-        //creo esta funcion de abajo renderiza otra vez todos los componentes
-        //que estan en navigation. vamos a probarlo FAGG
 
-
-        //voy a chequear si puedo hacer una referencia a la base de datos por aqui
-
-
-
-
-        firebase.database().ref('Users/').on('value', snapshot => {
-        console.log(JSON.stringify(snapshot))
-        var values = {}
-        values = JSON.stringify(snapshot)
-          for(i=1;i+<values[].length;values[])
-          {//aqui quede
-
-          }
-
-//Jose me iba a decir como traer la data de firebase y ponerla en una lista
-
-        })
-
-
-
-
-
-
-
-
-
-        //mando a la pagina de navegacion la informacion del email del usuario
-        this.props.navigation.navigate('Home2', { emaill: this.state.correo })
-        //solucion puede ser crear una pantalla principal que sea active solo
-        //despues que el usuario se logee.
-
-
-      //console.log(this.state.correo + this.state.clave)
-    }
       render(){
         let correoVar = '';
         let claveVar = '';
@@ -426,6 +379,55 @@ class pantPrincipal extends Component {
   
       //Crear funcion dentro de render()
   
+
+      handlePress(){
+        /*
+        firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
+                          .then(() => {
+                            this.props.navigation.navigate('Home')
+                          }).catch(error => this.setState({errorMessage: error.message}))
+                          */
+                         
+        firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
+        .then((user) => {
+          //creo esta funcion de abajo renderiza otra vez todos los componentes
+          //que estan en navigation. vamos a probarlo FAGG
+  
+  
+          //voy a chequear si puedo hacer una referencia a la base de datos por aqui
+  
+  
+  
+  
+          firebase.database().ref('Users/').on('value', snapshot => {
+          console.log(JSON.stringify(snapshot))
+  
+  //Jose me iba a decir como traer la data de firebase y ponerla en una lista
+  
+          })
+        
+  
+  
+  
+  
+  
+  //hay un error de compilacion chequear 
+  
+  
+  
+          //mando a la pagina de navegacion la informacion del email del usuario
+          this.props.navigation.navigate('Home2', { emaill: this.state.correo })
+          //solucion puede ser crear una pantalla principal que sea active solo
+          //despues que el usuario se logee.
+  
+        
+        //console.log(this.state.correo + this.state.clave)
+      }
+    )
+    }
+
+
+
       _onSignUpPress()
       {
         console.log('Los datos introducidos son: ');
