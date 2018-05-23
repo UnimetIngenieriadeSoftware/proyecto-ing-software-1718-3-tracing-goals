@@ -654,7 +654,22 @@ class pantPrincipal extends Component {
     }
     onDateChange(date){
       this.setState({
-        date: date
+        fechaCulminacion: date
+      });
+    }
+    onNombreMetaChange(nombreMeta){
+      this.setState({
+        nombreMeta: nombreMeta
+      });
+    }
+    onNumeroPChange(numeroP){
+      this.setState({
+        numeroPrioridad: numeroP
+      });
+    }
+    onDescripcionMetaChange(descripcion){
+      this.setState({
+        descripcionMeta: descripcion
       });
     }
     componentDidMount(){
@@ -671,6 +686,10 @@ class pantPrincipal extends Component {
   //vamos a intentar a ver
       render(){
         let space = ' '; 
+        let nombreMet='';
+        let descrip='';
+        let numeroPrior='';
+        let fechCulm='';
         const { params } = this.props.navigation.state;
         return(
    <Container>
@@ -679,15 +698,10 @@ class pantPrincipal extends Component {
   
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 40, width: width}}></Col>
-        </Grid>
-          
-          <Text> Bienvenido {params.emaill} the width is {width} ! </Text> 
+        </Grid>          
+          <Text> Bienvenido {params.emaill} </Text> 
 
          <Grid>
-          
-          
-
-
        
    
 
@@ -697,11 +711,11 @@ class pantPrincipal extends Component {
          <Label>Nombre</Label>
          <Input 
          onChangeText={(text) => {
-          this._changeTextCorreo(text);
-          correoVar = text;
+          nombreMet = text;
           this.setState({
-            correo: correoVar
-          })
+            nombreMeta: nombreMet
+          });
+          console.log('El nombre de la meta se ha cambiado a: ' + nombreMet)
         }}
          />
        </Item>
@@ -709,11 +723,11 @@ class pantPrincipal extends Component {
          <Label>Descripcion</Label>
          <Input 
          onChangeText={(text) => {
-          this._changeTextClave(text);
-          claveVar = text;
+          descrip = text;
           this.setState({
-            clave: claveVar
-          })
+            descripcionMeta: descrip
+          });
+          console.log('La descripcion de la meta se ha cambiado a: '+ descrip)
         }}
          />
        </Item>
@@ -722,11 +736,11 @@ class pantPrincipal extends Component {
          <Input 
          keyboardType = 'numeric'
          onChangeText={(text) => {
-          this._changeTextClave(text);
-          claveVar = text;
+          numeroPrior = text;
           this.setState({
-            clave: claveVar
-          })
+            descrip: numeroPrior
+          });
+          console.log('El numero de prioridad se ha cambiado a: '+ numeroPrior);
         }}
          />
        </Item>
@@ -741,7 +755,13 @@ class pantPrincipal extends Component {
        date={this.state.date}
        placeholder='Fecha de Culminacion'
        mode='date'
-       onDateChange = {(date) => this.onDateChange(date)}
+       onDateChange = {(date) => {
+        fechCulm = date;
+        this.setState({
+          fechaCulminacion: fechCulm
+        });
+          console.log('La fecha de culminacion se ha cambiad a: '+ fechCulm);
+        }}
        customStyles={{
         dateIcon: {
           position: 'absolute',
@@ -755,17 +775,51 @@ class pantPrincipal extends Component {
         }}  
        />
         </Item>
-        
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
         </Grid>
 
-
-
        <Grid>
        <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
           <Button 
-                    onPress= {() => {this.props.navigation.navigate('Login')
+                    onPress= {() => {
+                      //aqui hay que llamar a firebase y crear la meta
+                      //primero vamos a recibirla y mostrarla por consola
+                      firebase.database().ref('Metas/').once('value').then(snapshot => {
+                        console.log(JSON.stringify(snapshot))
+                        //en snapshot tengo la data.
+                        //Ahora quiero saber cual es la meta con mayor numero de id,
+                        //para la cual coloca sea mayor en 1
+
+                        myObj = snapshot.val();
+
+
+                        console.log(myObj);
+                        console.log('SEPARACION');
+
+                        var codigoNuevaMeta=0;
+                        for(x in myObj)
+                        { 
+                          console.log(x);
+                          if(codigoNuevaMeta<=parseInt(x))
+                          {
+                            codigoNuevaMeta=parseInt(x);
+                          }
+                        }
+                        codigoNuevaMeta=codigoNuevaMeta+1;
+                        //en codigoNuevaMeta sale el numero de meta el cual sera
+                        //la nueva meta que estoy inicializando.
+                        console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta)
+
+
+                        var array = [];
+
+
+
+
+
+                      })
+
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
