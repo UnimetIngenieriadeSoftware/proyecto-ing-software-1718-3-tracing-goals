@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions, Icon, SectionList
+  Dimensions, Icon, FlatList
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title} from 'native-base';
@@ -268,7 +268,7 @@ class pantPrincipal extends Component {
         </Grid>
   
           <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 146}}></Col>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 119}}></Col>
   
           <Button 
                     onPress= {() => {this.props.navigation.navigate('metasCreadas',
@@ -301,6 +301,7 @@ class pantPrincipal extends Component {
 
     var ellUsuarId;
 
+    var spaceX = ' ';
     class pantallaMetasCreadas extends Component {
       static navigationOptions = ({ navigation }) => ({
           //title: 'Email is: ' + navigation.state.params.emaill ,
@@ -331,6 +332,9 @@ class pantPrincipal extends Component {
           elUserId: '',
         };
       }
+
+      _keyExtractor = (item, index) => item.key;
+
       componentDidMount(){
         //how to insert the data?
         //to insert the data I need to know the userid
@@ -342,14 +346,18 @@ class pantPrincipal extends Component {
 
           for(x in ellObj)
           {
+            console.log(ellObj[x]);
             if(ellObj[x].usuarioId==ellUsuarId)
             {
-                anArray.push(ellObj);
+                anArray.push(ellObj[x]);
             }
           }
+          console.log('here');
           this.setState({
             data: anArray
           });
+          console.log('aqui esta la data');
+          console.log(this.state.data);
         });
       }
         render(){
@@ -364,7 +372,7 @@ class pantPrincipal extends Component {
      <Content style= {styles.content}>
     
           <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 60, width: width}}></Col>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
           </Grid>
             
             <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} </Text> 
@@ -372,36 +380,52 @@ class pantPrincipal extends Component {
            
            
           <Grid>
-            <Col style={{ backgroundColor: 'black', height: 140, width: width}}></Col>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
   
           </Grid>
-    
-            <Grid>
-              <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
-            </Grid>  
 
             <View style={styles.container}>
-        <SectionList
+        <FlatList
           data={this.state.data}
           
+//todo va a salir bien
 
 
-
-       /*   
+         /*
           {[
-            {key: 'Devin'},
-            {key: 'Jackson'},
-            {key: 'James'},
-            {key: 'Joel'},
-            {key: 'John'},
-            {key: 'Jillian'},
-            {key: 'Jimmy'},
-            {key: 'Julie'},
-          ]}
-*/
-
-
-          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+            {key: 'Devin', descripcion: 'La descripcion de Kevin', fechaCulminacion: 'fecha',
+             numeroPrioridad: 3, 
+             usuarioId: 1 },
+            {key: 'Jackson', descripcion: 'La descripcion de Kevin'},
+            {key: 'James', descripcion: 'La descripcion de Kevin'},
+            {key: 'Joel', descripcion: 'La descripcion de Kevin'},
+            {key: 'John', descripcion: 'La descripcion de Kevin'},
+            {key: 'Jillian', descripcion: 'La descripcion de Kevin'},
+            {key: 'Jimmy', descripcion: 'La descripcion de Kevin'},
+            {key: 'Julie', descripcion: 'La descripcion de Kevin'},
+          ]}*/
+          renderItem={({item}) => 
+          
+            <Grid>
+              
+              
+              <Col style={{ backgroundColor: '#f2f4fc', height: 300, width: width}}>
+              
+              
+              
+              <Text style={styles.item}> ID:{item.key}</Text>
+              <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
+              <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
+              <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
+              <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
+              
+              
+              
+              </Col>
+              
+            </Grid>
+            }
+            keyExtractor={this._keyExtractor}
         />
       </View>
 
@@ -618,6 +642,39 @@ class pantPrincipal extends Component {
                         //firebase.database().ref('Users/')
                         //tengo que poner la info en la base de datos
                         //chequear si se esta leyendo la base de datos
+                        //crear en base de datos el usuario
+
+                        firebase.database().ref('Users/').once('value', snapshot => {
+
+                          //chequera el usuario id mayor 
+
+                          var myObj1;
+                          
+                        myObj1 = snapshot.val();
+
+
+                        console.log(myObj1);
+                        console.log('SEPARACION');
+
+                        var codigoNuevoUsuario=0;
+                        for(x in myObj1)
+                        { 
+                          console.log(x);
+                          if(codigoNuevoUsuario<=parseInt(x))
+                          {
+                            codigoNuevoUsuario=parseInt(x);
+                          }
+                        }
+                        codigoNuevoUsuario=codigoNuevoUsuario+1;
+
+                        //crear en base de datos un usuario con este codigo
+
+
+                        firebase.database().ref('Users/'+codigoNuevoUsuario).set({
+                          correo: this.state.correo,
+                          nombre: this.state.nombre,
+                        });
+                        });
 
 
                         this.props.navigation.navigate('Home')
@@ -949,25 +1006,23 @@ class pantPrincipal extends Component {
                           }
                         }
                         codigoNuevaMeta=codigoNuevaMeta+1;
-                        //en codigoNuevaMeta sale el numero de meta el cual sera
-                        //la nueva meta que estoy inicializando.
                         console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta);
 
-
-
-                        //no puedo acceder a los valores de la nueva meta que ingreso.
                         console.log(descrip);
 
-                        //ahora necesito saber el numero de usuario para ingresarlo en la meta
-                        
                         firebase.database().ref('Metas/'+codigoNuevaMeta).set({
                           descripcion: descrip,
                           fechaCulminacion: fechCulm,
                           nombre: nombreMet,
                           numeroPrioridad: parseInt(numeroPrior),
                           usuarioId: parseInt(usuariId),
+                          id: codigoNuevaMeta,
                         });
                       })
+
+
+                      //navegar hacia pagina principal
+                      this.props.navigation.navigate('Home')
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
@@ -1082,6 +1137,12 @@ class pantPrincipal extends Component {
     {
       color: 'white',
     },
+    item:
+    {
+      color: 'white',
+      backgroundColor: '#525D3B',
+      fontSize: 15,
+    }
   });
   
 
