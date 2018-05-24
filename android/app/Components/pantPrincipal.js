@@ -223,7 +223,12 @@ class pantPrincipal extends Component {
   //vamos a intentar a ver
       render(){
         let space = ' '; 
-        const { params } = this.props.navigation.state;
+        const { navigation } = this.props;
+        const daEmail = navigation.getParam('emaill', 'aDefaultValue');
+        const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+
+
+
         return(
    <Container>
   
@@ -233,7 +238,7 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 60, width: width}}></Col>
         </Grid>
           
-          <Text> Bienvenido {params.emaill} the width is {width} ! </Text> 
+          <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} ! </Text> 
 
          
          
@@ -241,7 +246,7 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
 
           <Button 
-                    onPress= {() => {this.props.navigation.navigate('crearMeta')
+                    onPress= {() => {//this.props.navigation.navigate('crearMeta')
 
                     //se necesita pasar por los params el id de usuario
                     //como se obtiene id usuario?
@@ -249,7 +254,7 @@ class pantPrincipal extends Component {
                     //con ese email buscar en la database que id de usuario corresponde.
                     
 
-                    this.props.navigation.navigate('crearMeta', { emaill: params.emaill })
+                    this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
@@ -332,13 +337,6 @@ class pantPrincipal extends Component {
           this.setState({
             correo: correoVar
           })
-          firebase.auth().onAuthStateChanged(user => {
-            if(user){
-              //Crear una variable global que indique si el usuario esta logeado
-            } else {
-              
-            }
-        })
         }}
          />
        </Item>
@@ -364,8 +362,34 @@ class pantPrincipal extends Component {
               
            
                 <Button 
-                      onPress={this.handlePress  
-                      }
+                      onPress={this.handlePress
+                        /*() => {
+                          
+
+
+
+
+                          firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
+        .then((user) => {
+
+
+                firebase.database().ref('Users/').on('value', snapshot => {
+
+
+                console.log(JSON.stringify(snapshot))
+                  
+
+                
+
+                })
+
+
+          
+ 
+                        }
+              )    
+                        }*/
+                    }
                       containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
                       style={{fontSize: 15, color: '#f2f4fc'}}
                 >
@@ -388,47 +412,37 @@ class pantPrincipal extends Component {
   
 
       handlePress(){
-        /*
-        firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.clave)
-                          .then(() => {
-                            this.props.navigation.navigate('Home')
-                          }).catch(error => this.setState({errorMessage: error.message}))
-                          */
                          
         firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
         .then((user) => {
-          //creo esta funcion de abajo renderiza otra vez todos los componentes
-          //que estan en navigation. vamos a probarlo FAGG
-  
-  
-          //voy a chequear si puedo hacer una referencia a la base de datos por aqui
-  
-  
-  
-  
-          firebase.database().ref('Users/').on('value', snapshot => {
-          console.log(JSON.stringify(snapshot))
-  
-  //Jose me iba a decir como traer la data de firebase y ponerla en una lista
-  
-          })
+
+          
+          firebase.database().ref('Users/').once('value', snapshot => {
+
+            console.log(JSON.stringify(snapshot));
+            var laaaObj = [];
+            laaaObj = snapshot.val();
+
+
+
+            var usuarId;
+            for(x in laaaObj)
+            {
+              console.log(laaaObj[x]);
+              if(laaaObj[x].correo==this.state.correo)
+              {
+                usuarId = x;
+              }
+            }
+
+            console.log('el usuario id es: '+ x);
+
+            //necesito pasar el usuarioid
+            this.props.navigation.navigate('Home2', { emaill: this.state.correo,usuariId: usuarId })
+          }).catch(err => {console.log(error)})
         
+          
   
-  
-  
-  
-  
-  //hay un error de compilacion chequear 
-  
-  
-  
-          //mando a la pagina de navegacion la informacion del email del usuario
-          this.props.navigation.navigate('Home2', { emaill: this.state.correo })
-          //solucion puede ser crear una pantalla principal que sea active solo
-          //despues que el usuario se logee.
-  
-        
-        //console.log(this.state.correo + this.state.clave)
       }
     )
     }
@@ -701,7 +715,9 @@ class pantPrincipal extends Component {
       render(){
         var space = ' '; 
         
-        const { params } = this.props.navigation.state;
+        const { navigation } = this.props;
+        const emaill = navigation.getParam('emaill', 'aDefaultValue');
+        const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
         return(
    <Container>
   
@@ -710,8 +726,7 @@ class pantPrincipal extends Component {
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 40, width: width}}></Col>
         </Grid>          
-          <Text> Bienvenido {params.emaill} </Text> 
-
+          <Text> Bienvenido {space} {emaill} {space} UsuarioId: {usuariId} </Text> 
          <Grid>
        
    
@@ -827,16 +842,15 @@ class pantPrincipal extends Component {
                         //no puedo acceder a los valores de la nueva meta que ingreso.
                         console.log(descrip);
 
-
-
                         //ahora necesito saber el numero de usuario para ingresarlo en la meta
-                        /*
+                        
                         firebase.database().ref('Metas/'+codigoNuevaMeta).set({
                           descripcion: descrip,
                           fechaCulminacion: fechCulm,
                           nombre: nombreMet,
-                          numeroPrioridad: numeroPrior
-                        });*/
+                          numeroPrioridad: parseInt(numeroPrior),
+                          usuarioId: parseInt(usuariId),
+                        });
                       })
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
