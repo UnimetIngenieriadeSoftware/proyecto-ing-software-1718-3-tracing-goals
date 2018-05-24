@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions, Icon
+  Dimensions, Icon, SectionList
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title} from 'native-base';
@@ -271,12 +271,17 @@ class pantPrincipal extends Component {
           <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 146}}></Col>
   
           <Button 
-                    onPress= {() => {this.props.navigation.navigate('Login')
+                    onPress= {() => {this.props.navigation.navigate('metasCreadas',
+                    {
+                    daEmail: daEmail, 
+                    usuariId: usuariId,
+                    } 
+                  )
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
           >
-                    Hoy {space}  
+                    Metas Creadas {space}  
                     <CalendarIcon name='calendar' size={15} color= 'gold'>
                     </CalendarIcon>
           </Button>
@@ -294,7 +299,118 @@ class pantPrincipal extends Component {
     }
 
 
+    var ellUsuarId;
 
+    class pantallaMetasCreadas extends Component {
+      static navigationOptions = ({ navigation }) => ({
+          //title: 'Email is: ' + navigation.state.params.emaill ,
+          title: 'Tracing Goals',
+          headerStyle: {
+            backgroundColor: '#525D3B',
+          },
+          headerTintColor: '#f2f4fc',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerRight: (
+            <Text> </Text>
+          ),
+          headerLeft: (
+            <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+          ),
+      });
+      constructor(props){
+        super(props);
+        this.state = {
+          //Esta loggeado o no
+          //lo deje hasta aqui.
+          //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+          isSignedIn: false,
+          correo: '',
+          data: [],
+          elUserId: '',
+        };
+      }
+      componentDidMount(){
+        //how to insert the data?
+        //to insert the data I need to know the userid
+        //now need to get all the metas where the userid is 'ellUsuarId'
+        firebase.database().ref('Metas/').once('value', snapshot => {
+          var ellObj = snapshot.val();
+          var anArray = [];
+          console.log(ellObj);
+
+          for(x in ellObj)
+          {
+            if(ellObj[x].usuarioId==ellUsuarId)
+            {
+                anArray.push(ellObj);
+            }
+          }
+          this.setState({
+            data: anArray
+          });
+        });
+      }
+        render(){
+          let space = ' '; 
+          const { navigation } = this.props;
+          const daEmail = navigation.getParam('daEmail', 'aDefaultValue');
+          const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+          ellUsuarId=usuariId;
+          return(
+     <Container>
+    
+     <Content style= {styles.content}>
+    
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 60, width: width}}></Col>
+          </Grid>
+            
+            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} </Text> 
+  
+           
+           
+          <Grid>
+            <Col style={{ backgroundColor: 'black', height: 140, width: width}}></Col>
+  
+          </Grid>
+    
+            <Grid>
+              <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
+            </Grid>  
+
+            <View style={styles.container}>
+        <SectionList
+          data={this.state.data}
+          
+
+
+
+       /*   
+          {[
+            {key: 'Devin'},
+            {key: 'Jackson'},
+            {key: 'James'},
+            {key: 'Joel'},
+            {key: 'John'},
+            {key: 'Jillian'},
+            {key: 'Jimmy'},
+            {key: 'Julie'},
+          ]}
+*/
+
+
+          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+        />
+      </View>
+
+
+     </Content>         
+    </Container>
+          );
+        }
+      }
 
 
 
@@ -896,6 +1012,7 @@ class pantPrincipal extends Component {
       Login: login,
       CrearCuenta: crearCuenta,
       crearMeta: pantallaCrearMeta,
+      metasCreadas: pantallaMetasCreadas,
     },
     {
       initialRouteName: 'Home',
