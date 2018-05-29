@@ -187,17 +187,6 @@ class pantPrincipal extends Component {
         ),
     };
   
-  //otro modo
-  /*
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
-  
-      return {
-        title: params ? params.otherParam : 'Tracing Goals',
-      }
-    };
-  */
-  
     constructor(props){
       super(props);
       this.state = {
@@ -208,9 +197,6 @@ class pantPrincipal extends Component {
         userLoggedInDisplay: 'flex',
       };
     }
-    
-  //como hago para que cuando se haga login no se muestren mas el boton de crear
-  //cuenta??
   
       render(){
         let space = ' '; 
@@ -251,16 +237,11 @@ class pantPrincipal extends Component {
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: 100}}></Col>
         <Button 
-                    onPress= {() => {//this.props.navigation.navigate('crearMeta')
-
-                    //se necesita pasar por los params el id de usuario
-                    //como se obtiene id usuario?
-                    //primero tengo que obtener el usuario actual de firebase, obtener su email
-                    //con ese email buscar en la database que id de usuario corresponde.
-                    
-
+                    onPress= {() => {
+                      console.log('we are sending this usuariId: '+ usuariId);
                     this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
-                    } }
+                    } 
+                  }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
           >
@@ -269,7 +250,33 @@ class pantPrincipal extends Component {
                     </TrophyIcon>
           </Button>
         </Grid>
-  
+        <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 100}}></Col>
+    
+            <Button 
+                      onPress= {() => {this.props.navigation.navigate('metasCreadas',
+                      {
+                      daEmail: daEmail, 
+                      usuariId: usuariId,
+                      } 
+                    )
+                      } }
+                      style={{fontSize: 15, color: '#f2f4fc'}}
+                      containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+            >
+                      Metas Creadas {space}  
+                      <CalendarIcon name='calendar' size={15} color= 'gold'>
+                      </CalendarIcon>
+            </Button>
+
+
+
+                  <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 146}}></Col>
+    
+          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 53}}></Col>
+        </Grid>
+
+
           <Grid>
           <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
         </Grid>             
@@ -298,39 +305,6 @@ class pantPrincipal extends Component {
           <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
         ),
     });
-
-
-    /*static navigationOptions = {
-        title: 'Tracing Goals',
-        headerStyle: {
-          backgroundColor: '#525D3B',
-        },
-        headerTintColor: '#f2f4fc',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerRight: (
-          <Text> </Text>
-          //como poner el nombre del usuario aqui?
-          //creo no se puede porque esta header bar es statica, una vez se carga
-          //al principio cuando se carga la app. ya no es posible cambiarla
-        ),
-        headerLeft: (
-          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
-        ),
-    };
-    */
-  
-  //otro modo
-  /*
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
-  
-      return {
-        title: params ? params.otherParam : 'Tracing Goals',
-      }
-    };
-  */
   
     constructor(props){
       super(props);
@@ -937,39 +911,6 @@ class pantPrincipal extends Component {
           <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
         ),
     });
-
-
-    /*static navigationOptions = {
-        title: 'Tracing Goals',
-        headerStyle: {
-          backgroundColor: '#525D3B',
-        },
-        headerTintColor: '#f2f4fc',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerRight: (
-          <Text> </Text>
-          //como poner el nombre del usuario aqui?
-          //creo no se puede porque esta header bar es statica, una vez se carga
-          //al principio cuando se carga la app. ya no es posible cambiarla
-        ),
-        headerLeft: (
-          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
-        ),
-    };
-    */
-  
-  //otro modo
-  /*
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
-  
-      return {
-        title: params ? params.otherParam : 'Tracing Goals',
-      }
-    };
-  */
   
     constructor(props){
       super(props);
@@ -1141,19 +1082,33 @@ class pantPrincipal extends Component {
 
                         console.log(descrip);
 
+
+                        console.log('usuario id es: '+usuariId);
+
+                        console.log('numero prioridad es: '+numeroPrior);
+
+
+                        /*
                         firebase.database().ref('Metas/'+codigoNuevaMeta).set({
                           descripcion: descrip,
                           fechaCulminacion: fechCulm,
                           nombre: nombreMet,
                           numeroPrioridad: parseInt(numeroPrior),
-                          usuarioId: parseInt(usuariId),
+                          usuarioId: usuariId,
                           id: codigoNuevaMeta,
                         });
+                        */
+
+
+
+
+
+
                       })
 
 
                       //navegar hacia pagina principal
-                      this.props.navigation.navigate('Home')
+                      this.props.navigation.navigate('Home3');
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
