@@ -75,6 +75,28 @@ class pantPrincipal extends Component {
       userLoggedInDisplay: 'flex',
     };
   }
+  componentDidMount()
+  { //Si se esta logeado quiero ir hacia 'Home3'
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          console.log('The user is signed in');
+          var theUserId;
+          firebase.database().ref('Users/').once('value', snapshot => {
+            var daObj = snapshot.val();
+            for(x in daObj)
+            {
+              if(daObj[x].correo==user.email)
+              {
+                theUserId=x;
+              }
+            }
+          });
+          this.props.navigation.navigate('Home3', { emaill: user.email, usuariId: theUserId });
+        } else {
+          console.log('The user is not signed in');
+        }
+      });
+  }
   
 //como hago para que cuando se haga login no se muestren mas el boton de crear
 //cuenta??
@@ -146,6 +168,117 @@ class pantPrincipal extends Component {
       );
     }
   }
+
+  class pantPrincipalYaLogeado extends Component {
+    static navigationOptions = {
+        title: 'Tracing Goals',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: (
+          <Text> </Text>
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+    };
+  
+  //otro modo
+  /*
+    static navigationOptions = ({ navigation }) => {
+      const { params } = navigation.state;
+  
+      return {
+        title: params ? params.otherParam : 'Tracing Goals',
+      }
+    };
+  */
+  
+    constructor(props){
+      super(props);
+      this.state = {
+        //Esta loggeado o no
+        //lo deje hasta aqui.
+        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+        isSignedIn: false,
+        userLoggedInDisplay: 'flex',
+      };
+    }
+    
+  //como hago para que cuando se haga login no se muestren mas el boton de crear
+  //cuenta??
+  
+      render(){
+        let space = ' '; 
+        const { navigation } = this.props;
+        const daEmail = navigation.getParam('emaill', 'aDefaultValue');
+        const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+        return(
+   <Container>
+   <Content style= {styles.content}>  
+         <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 100, width: width}}></Col>
+          </Grid>
+          
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 50}}></Col>
+  
+          <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
+          </BarGraphIcon>
+  
+          <CalendarIcon name='calendar' size={45} color= 'gold'>
+          </CalendarIcon>
+  
+          <StarIcon name='star-circle' size={45} color= 'dodgerblue'>
+          </StarIcon>
+  
+          <GraduationCap name='graduation-cap' size={45} color='black'>
+          </GraduationCap>
+  
+          <BookIcon name='open-book' size={45} color= 'darkolivegreen'>
+          </BookIcon>
+  
+          <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
+          </ComputerIcon>
+          
+          <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
+          </Grid>
+  
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: 100}}></Col>
+        <Button 
+                    onPress= {() => {//this.props.navigation.navigate('crearMeta')
+
+                    //se necesita pasar por los params el id de usuario
+                    //como se obtiene id usuario?
+                    //primero tengo que obtener el usuario actual de firebase, obtener su email
+                    //con ese email buscar en la database que id de usuario corresponde.
+                    
+
+                    this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+          >
+                    Nueva Meta {space}
+                    <TrophyIcon name='trophy' size={15} color= 'gold'>
+                    </TrophyIcon>
+          </Button>
+        </Grid>
+  
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
+        </Grid>             
+   </Content>         
+  </Container>
+        );
+      }
+    }
+
 
   class pantPrincipalLogeado extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -562,8 +695,6 @@ class pantPrincipal extends Component {
             console.log(JSON.stringify(snapshot));
             var laaaObj = [];
             laaaObj = snapshot.val();
-
-
 
             var usuarId;
             for(x in laaaObj)
@@ -1064,6 +1195,7 @@ class pantPrincipal extends Component {
     {
       Home: pantPrincipal,
       Home2: pantPrincipalLogeado,
+      Home3: pantPrincipalYaLogeado,
       Login: login,
       CrearCuenta: crearCuenta,
       crearMeta: pantallaCrearMeta,
