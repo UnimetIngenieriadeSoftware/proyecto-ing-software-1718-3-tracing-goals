@@ -80,8 +80,9 @@ class pantPrincipal extends Component {
       firebase.auth().onAuthStateChanged(user => {
         if(user){
           console.log('The user is signed in');
-          var theUserId;
+          
           firebase.database().ref('Users/').once('value', snapshot => {
+            var theUserId;
             var daObj = snapshot.val();
             for(x in daObj)
             {
@@ -90,8 +91,8 @@ class pantPrincipal extends Component {
                 theUserId=x;
               }
             }
+            this.props.navigation.navigate('Home3', { emaill: user.email, usuariId: theUserId });
           });
-          this.props.navigation.navigate('Home3', { emaill: user.email, usuariId: theUserId });
         } else {
           console.log('The user is not signed in');
         }
@@ -190,9 +191,6 @@ class pantPrincipal extends Component {
     constructor(props){
       super(props);
       this.state = {
-        //Esta loggeado o no
-        //lo deje hasta aqui.
-        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
         isSignedIn: false,
         userLoggedInDisplay: 'flex',
       };
@@ -238,8 +236,7 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: 100}}></Col>
         <Button 
                     onPress= {() => {
-                      console.log('we are sending this usuariId: '+ usuariId);
-                    this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
+                      this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
                     } 
                   }
                     style={{fontSize: 15, color: '#f2f4fc'}}
@@ -309,9 +306,6 @@ class pantPrincipal extends Component {
     constructor(props){
       super(props);
       this.state = {
-        //Esta loggeado o no
-        //lo deje hasta aqui.
-        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
         isSignedIn: false,
         correo: '',
       };
@@ -325,17 +319,12 @@ class pantPrincipal extends Component {
         }
       });
     }
-  //Creo no va a ser posible mostrar el correo del usuario debido a que todas las 
-  //vistas se cargan al principio del programa 
-  //vamos a intentar a ver
+    
       render(){
         let space = ' '; 
         const { navigation } = this.props;
         const daEmail = navigation.getParam('emaill', 'aDefaultValue');
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
-
-
-
         return(
    <Container>
   
@@ -353,14 +342,7 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
 
           <Button 
-                    onPress= {() => {//this.props.navigation.navigate('crearMeta')
-
-                    //se necesita pasar por los params el id de usuario
-                    //como se obtiene id usuario?
-                    //primero tengo que obtener el usuario actual de firebase, obtener su email
-                    //con ese email buscar en la database que id de usuario corresponde.
-                    
-
+                    onPress= {() => {
                     this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
@@ -443,9 +425,6 @@ class pantPrincipal extends Component {
       _keyExtractor = (item, index) => item.key;
 
       componentDidMount(){
-        //how to insert the data?
-        //to insert the data I need to know the userid
-        //now need to get all the metas where the userid is 'ellUsuarId'
         firebase.database().ref('Metas/').once('value', snapshot => {
           var ellObj = snapshot.val();
           var anArray = [];
@@ -475,17 +454,13 @@ class pantPrincipal extends Component {
           ellUsuarId=usuariId;
           return(
      <Container>
-    
      <Content style= {styles.content}>
     
           <Grid>
           <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
           </Grid>
             
-            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} </Text> 
-  
-           
-           
+            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} </Text>
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
   
@@ -494,58 +469,26 @@ class pantPrincipal extends Component {
             <View style={styles.container}>
         <FlatList
           data={this.state.data}
-          
-//todo va a salir bien
-
-
-         /*
-          {[
-            {key: 'Devin', descripcion: 'La descripcion de Kevin', fechaCulminacion: 'fecha',
-             numeroPrioridad: 3, 
-             usuarioId: 1 },
-            {key: 'Jackson', descripcion: 'La descripcion de Kevin'},
-            {key: 'James', descripcion: 'La descripcion de Kevin'},
-            {key: 'Joel', descripcion: 'La descripcion de Kevin'},
-            {key: 'John', descripcion: 'La descripcion de Kevin'},
-            {key: 'Jillian', descripcion: 'La descripcion de Kevin'},
-            {key: 'Jimmy', descripcion: 'La descripcion de Kevin'},
-            {key: 'Julie', descripcion: 'La descripcion de Kevin'},
-          ]}*/
           renderItem={({item}) => 
-          
             <Grid>
-              
-              
               <Col style={{ backgroundColor: '#f2f4fc', height: 300, width: width}}>
-              
-              
-              
               <Text style={styles.item}> ID:{item.key}</Text>
               <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
               <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
               <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
               <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
-              
-              
-              
               </Col>
-              
             </Grid>
             }
             keyExtractor={this._keyExtractor}
         />
       </View>
-
-
      </Content>         
     </Container>
           );
         }
       }
 
-
-
-    //clase login
   class login extends Component {
     static navigationOptions = {
       title: 'Iniciar Sesion',
@@ -691,8 +634,6 @@ class pantPrincipal extends Component {
       }
     )
     }
-
-
 
       _onSignUpPress()
       {
