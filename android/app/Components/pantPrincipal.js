@@ -39,6 +39,8 @@ const firebaseConfig = {
 //lista de usuarios
 //1. fguzman53000@gmail.com laPrimeraContr456
 //2. guzmanf@correo.unimet.edu.ve 1234567
+//3. jeanraul16@gmail.com 1234567
+
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
@@ -53,18 +55,6 @@ class pantPrincipal extends Component {
         fontWeight: 'bold',
       },
   };
-
-//otro modo
-/*
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-
-    return {
-      title: params ? params.otherParam : 'Tracing Goals',
-    }
-  };
-*/
-
   constructor(props){
     super(props);
     this.state = {
@@ -76,7 +66,7 @@ class pantPrincipal extends Component {
     };
   }
   componentDidMount()
-  { //Si se esta logeado quiero ir hacia 'Home3'
+  {
       firebase.auth().onAuthStateChanged(user => {
         if(user){
           console.log('The user is signed in');
@@ -98,10 +88,6 @@ class pantPrincipal extends Component {
         }
       });
   }
-  
-//como hago para que cuando se haga login no se muestren mas el boton de crear
-//cuenta??
-
     render(){
       return(
  <Container>
@@ -201,15 +187,26 @@ class pantPrincipal extends Component {
         const { navigation } = this.props;
         const daEmail = navigation.getParam('emaill', 'aDefaultValue');
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+
+        //want to display the name of the user
+
+        firebase.database().ref('Users/').once('value', snapshot => {
+          //want to get the name of the user with id usuariId
+
+
+        });
+
+
         return(
    <Container>
    <Content style= {styles.content}>  
-         <Grid>
-        <Col style={{ backgroundColor: '#f2f4fc', height: 100, width: width}}></Col>
-          </Grid>
-          
-          <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 50}}></Col>
+
+    <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
+    </Grid>
+
+    <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 65, width: 50}}></Col>
   
           <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
           </BarGraphIcon>
@@ -230,7 +227,22 @@ class pantPrincipal extends Component {
           </ComputerIcon>
           
           <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
-          </Grid>
+    </Grid>
+
+
+        <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col> 
+        </Grid>
+          
+        <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 10, width: 20}}></Col>
+            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} ! </Text> 
+        </Grid>
+
+        <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col> 
+        </Grid>
+          
   
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: 100}}></Col>
@@ -553,32 +565,6 @@ class pantPrincipal extends Component {
            
                 <Button 
                       onPress={this.handlePress
-                        /*() => {
-                          
-
-
-
-
-                          firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.clave)
-        .then((user) => {
-
-
-                firebase.database().ref('Users/').on('value', snapshot => {
-
-
-                console.log(JSON.stringify(snapshot))
-                  
-
-                
-
-                })
-
-
-          
- 
-                        }
-              )    
-                        }*/
                     }
                       containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
                       style={{fontSize: 15, color: '#f2f4fc'}}
@@ -597,9 +583,6 @@ class pantPrincipal extends Component {
         
         );
       }
-  
-      //Crear funcion dentro de render()
-  
 
       handlePress(){
                          
@@ -628,9 +611,6 @@ class pantPrincipal extends Component {
             //necesito pasar el usuarioid
             this.props.navigation.navigate('Home2', { emaill: this.state.correo,usuariId: usuarId })
           }).catch(err => {console.log(error)})
-        
-          
-  
       }
     )
     }
@@ -856,14 +836,10 @@ class pantPrincipal extends Component {
     constructor(props){
       super(props);
       this.state = {
-        //Esta loggeado o no
-        //lo deje hasta aqui.
-        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
         nombreMeta: '',
         descripcionMeta: '',
         numeroPrioridad: 1,
         fechaCulminacion: '',
-        //ahora hay que hacer la referencia a la base de datos
       };
     }
     onDateChange(date){
@@ -895,12 +871,8 @@ class pantPrincipal extends Component {
         }
       });
     }
-  //Creo no va a ser posible mostrar el correo del usuario debido a que todas las 
-  //vistas se cargan al principio del programa 
-  //vamos a intentar a ver
       render(){
-        var space = ' '; 
-        
+        var space = ' ';
         const { navigation } = this.props;
         const emaill = navigation.getParam('emaill', 'aDefaultValue');
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
@@ -1027,9 +999,6 @@ class pantPrincipal extends Component {
                         console.log('usuario id es: '+usuariId);
 
                         console.log('numero prioridad es: '+numeroPrior);
-
-
-                        /*
                         firebase.database().ref('Metas/'+codigoNuevaMeta).set({
                           descripcion: descrip,
                           fechaCulminacion: fechCulm,
@@ -1038,13 +1007,6 @@ class pantPrincipal extends Component {
                           usuarioId: usuariId,
                           id: codigoNuevaMeta,
                         });
-                        */
-
-
-
-
-
-
                       })
 
 
