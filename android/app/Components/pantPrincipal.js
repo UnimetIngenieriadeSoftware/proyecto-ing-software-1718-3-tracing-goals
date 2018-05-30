@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions, Icon, FlatList
+  Dimensions, Icon, FlatList, TouchableOpacity
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title} from 'native-base';
@@ -13,6 +13,7 @@ import BarGraphIcon from 'react-native-vector-icons/Entypo';
 import GraduationCap from 'react-native-vector-icons/Entypo';
 import ComputerIcon from 'react-native-vector-icons/Ionicons';
 import TrophyIcon from 'react-native-vector-icons/Entypo';
+import LogOutIcon from 'react-native-vector-icons/Entypo';
 import DatePicker from 'react-native-datepicker';
 
 
@@ -62,6 +63,7 @@ class pantPrincipal extends Component {
       userLoggedInDisplay: 'flex',
     };
   }
+
   componentDidMount()
   {
       firebase.auth().onAuthStateChanged(user => {
@@ -155,9 +157,30 @@ class pantPrincipal extends Component {
     }
   }
 
+  //this was the header in pantPrincipalYaLogeado, we are trying to change some things
+  /*
+        headerRight: (
+          <Button
+          onPress= {() => {
+            //Cerrando sesion
+            firebase.auth().signOut().then(() =>{
+              console.log('we have logged out');
+              this.props.navigation.navigate('Home');
+            });
+          } 
+        }
+          >
+            <LogOutIcon name='log-out' size={20} color='white'>
+            </LogOutIcon>
+          </Button>
+        ),
+        headerLeft: (
+          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+        ),
+*/
 
-  class pantPrincipalYaLogeado extends Component {
-    static navigationOptions = {
+/* 
+static navigationOptions = {
         title: 'Tracing Goals',
         headerStyle: {
           backgroundColor: '#525D3B',
@@ -166,14 +189,22 @@ class pantPrincipal extends Component {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerRight: (
-          <Text> </Text>
-        ),
-        headerLeft: (
-          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
-        ),
     };
-  
+*/
+
+  class pantPrincipalYaLogeado extends Component {
+    static navigationOptions = ({ navigation }) => {
+      return {}
+
+
+
+
+
+
+    };
+    
+    
+
     constructor(props){
       super(props);
       this.state = {
@@ -468,7 +499,6 @@ class pantPrincipal extends Component {
             <Text style={styles.welcomeText}> Bienvenido {nameUser} ! </Text>
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
-  
           </Grid>
 
             <View style={styles.container}>
