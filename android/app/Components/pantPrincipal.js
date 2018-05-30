@@ -58,9 +58,6 @@ class pantPrincipal extends Component {
   constructor(props){
     super(props);
     this.state = {
-      //Esta loggeado o no
-      //lo deje hasta aqui.
-      //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
       isSignedIn: false,
       userLoggedInDisplay: 'flex',
     };
@@ -73,15 +70,17 @@ class pantPrincipal extends Component {
           
           firebase.database().ref('Users/').once('value', snapshot => {
             var theUserId;
+            var nameOfUser = '';
             var daObj = snapshot.val();
             for(x in daObj)
             {
               if(daObj[x].correo==user.email)
               {
                 theUserId=x;
+                nameOfUser = daObj[x].nombre;
               }
             }
-            this.props.navigation.navigate('Home3', { emaill: user.email, usuariId: theUserId });
+            this.props.navigation.navigate('Home3', { emaill: user.email, usuariId: theUserId, nameUser: nameOfUser});
           });
         } else {
           console.log('The user is not signed in');
@@ -132,7 +131,7 @@ class pantPrincipal extends Component {
               <Button
                     onPress= {() => {
                       this.props.navigation.navigate('CrearCuenta')
-                    } }/*display: {variable que diga si se esta loggeado}*/
+                    } }
                     containerStyle={{padding: 10, height:45, overflow:'hidden', borderRadius:15, backgroundColor: '#525D3B'}}
                     style={{fontSize: 15, color: '#f2f4fc'}}
               >
@@ -155,6 +154,7 @@ class pantPrincipal extends Component {
       );
     }
   }
+
 
   class pantPrincipalYaLogeado extends Component {
     static navigationOptions = {
@@ -181,21 +181,13 @@ class pantPrincipal extends Component {
         userLoggedInDisplay: 'flex',
       };
     }
-  
+
       render(){
         let space = ' '; 
         const { navigation } = this.props;
         const daEmail = navigation.getParam('emaill', 'aDefaultValue');
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
-
-        //want to display the name of the user
-
-        firebase.database().ref('Users/').once('value', snapshot => {
-          //want to get the name of the user with id usuariId
-
-
-        });
-
+        const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
 
         return(
    <Container>
@@ -229,14 +221,13 @@ class pantPrincipal extends Component {
           <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
     </Grid>
 
-
         <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col> 
         </Grid>
           
         <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 10, width: 20}}></Col>
-            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} ! </Text> 
+            <Text style={styles.welcomeText}> Bienvenido {nameUser} ! </Text> 
         </Grid>
 
         <Grid>
@@ -248,7 +239,7 @@ class pantPrincipal extends Component {
         <Col style={{ backgroundColor: '#f2f4fc', height: 220, width: 100}}></Col>
         <Button 
                     onPress= {() => {
-                      this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId })
+                      this.props.navigation.navigate('crearMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser })
                     } 
                   }
                     style={{fontSize: 15, color: '#f2f4fc'}}
@@ -267,6 +258,7 @@ class pantPrincipal extends Component {
                       {
                       daEmail: daEmail, 
                       usuariId: usuariId,
+                      nameUser: nameUser,
                       } 
                     )
                       } }
@@ -463,6 +455,7 @@ class pantPrincipal extends Component {
           const { navigation } = this.props;
           const daEmail = navigation.getParam('daEmail', 'aDefaultValue');
           const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+          const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
           ellUsuarId=usuariId;
           return(
      <Container>
@@ -472,7 +465,7 @@ class pantPrincipal extends Component {
           <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
           </Grid>
             
-            <Text> Bienvenido {space} {daEmail} userId: {space} {usuariId} </Text>
+            <Text style={styles.welcomeText}> Bienvenido {nameUser} ! </Text>
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
   
@@ -876,6 +869,7 @@ class pantPrincipal extends Component {
         const { navigation } = this.props;
         const emaill = navigation.getParam('emaill', 'aDefaultValue');
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+        const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
         return(
    <Container>
   
@@ -884,11 +878,9 @@ class pantPrincipal extends Component {
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 40, width: width}}></Col>
         </Grid>          
-          <Text> Bienvenido {space} {emaill} {space} UsuarioId: {usuariId} </Text> 
+          <Text style={styles.welcomeText}> Bienvenido {nameUser} !</Text> 
          <Grid>
        
-   
-
    <Content style= {styles.content}>
      <Form>
        <Item floatingLabel>
@@ -1026,27 +1018,12 @@ class pantPrincipal extends Component {
   
      </Form>
    </Content>    
-
-
-
-
-
-
-
-        </Grid> 
-         
-        
-                      
+        </Grid>                       
    </Content>         
   </Container>
         );
       }
     }
-
-
-
-
-
 
 
   const RootStack = createStackNavigator(
@@ -1132,6 +1109,11 @@ class pantPrincipal extends Component {
       color: 'white',
       backgroundColor: '#525D3B',
       fontSize: 15,
+    },
+    welcomeText:
+    {
+      color: 'gray',
+      fontSize: 18,
     }
   });
   
