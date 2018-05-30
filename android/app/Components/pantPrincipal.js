@@ -194,13 +194,32 @@ static navigationOptions = {
 
   class pantPrincipalYaLogeado extends Component {
     static navigationOptions = ({ navigation }) => {
-      return {}
-
-
-
-
-
-
+      return {
+        title: 'Tracing Goals',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        
+      headerRight: <Button
+                    onPress= {() => {
+                                      //Cerrando sesion
+                                      firebase.auth().signOut().then(() =>{
+                                        console.log('we have logged out');
+                                        //al cerrar sesion se va hacia la pagina principal
+                                        navigation.navigate('Home');
+                                      });
+                                    } 
+                              }
+                  >
+                                    <LogOutIcon name='log-out' size={20} color='white'>
+                                    </LogOutIcon>
+                  </Button>,
+      headerLeft: <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
+      };
     };
     
     
@@ -429,7 +448,7 @@ static navigationOptions = {
     class pantallaMetasCreadas extends Component {
       static navigationOptions = ({ navigation }) => ({
           //title: 'Email is: ' + navigation.state.params.emaill ,
-          title: 'Tracing Goals',
+          title: 'Metas Creadas',
           headerStyle: {
             backgroundColor: '#525D3B',
           },
@@ -439,9 +458,6 @@ static navigationOptions = {
           },
           headerRight: (
             <Text> </Text>
-          ),
-          headerLeft: (
-            <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
           ),
       });
       constructor(props){
@@ -629,10 +645,6 @@ static navigationOptions = {
               }
             }
 
-            console.log('el usuario id es: '+ x);
-
-            //necesito pasar el usuarioid
-            this.props.navigation.navigate('Home2', { emaill: this.state.correo,usuariId: usuarId })
           }).catch(err => {console.log(error)})
       }
     )
@@ -850,9 +862,6 @@ static navigationOptions = {
         },
         headerRight: (
           <Text> </Text>
-        ),
-        headerLeft: (
-          <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
         ),
     });
   
