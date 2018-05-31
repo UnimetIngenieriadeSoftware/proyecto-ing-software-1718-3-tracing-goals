@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-  Dimensions, Icon, FlatList, TouchableOpacity
+Dimensions, Icon, FlatList, TouchableOpacity
 } from 'react-native'; 
 import Button from 'react-native-button';
-import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Title} from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label,
+Body, Title, List, ListItem, Left, Right} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,6 +15,7 @@ import GraduationCap from 'react-native-vector-icons/Entypo';
 import ComputerIcon from 'react-native-vector-icons/Ionicons';
 import TrophyIcon from 'react-native-vector-icons/Entypo';
 import LogOutIcon from 'react-native-vector-icons/Entypo';
+import GoRight from 'react-native-vector-icons/Ionicons';
 import DatePicker from 'react-native-datepicker';
 
 
@@ -202,8 +204,7 @@ static navigationOptions = {
         headerTintColor: '#f2f4fc',
         headerTitleStyle: {
           fontWeight: 'bold',
-        },
-        
+        },  
       headerRight: <Button
                     onPress= {() => {
                                       //Cerrando sesion
@@ -221,8 +222,6 @@ static navigationOptions = {
       headerLeft: <Text style={{color: '#525D3B', fontSize: 1}}> S </Text>
       };
     };
-    
-    
 
     constructor(props){
       super(props);
@@ -441,7 +440,6 @@ static navigationOptions = {
       }
     }
 
-
     var ellUsuarId;
 
     var spaceX = ' ';
@@ -480,7 +478,6 @@ static navigationOptions = {
           var ellObj = snapshot.val();
           var anArray = [];
           console.log(ellObj);
-
           for(x in ellObj)
           {
             console.log(ellObj[x]);
@@ -509,10 +506,10 @@ static navigationOptions = {
      <Content style= {styles.content}>
     
           <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
           </Grid>
             
-            <Text style={styles.welcomeText}> Bienvenido {nameUser} ! </Text>
+            <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
           </Grid>
@@ -522,7 +519,7 @@ static navigationOptions = {
           data={this.state.data}
           renderItem={({item}) => 
             <Grid>
-              <Col style={{ backgroundColor: '#f2f4fc', height: 300, width: width}}>
+              <Col style={{ backgroundColor: '#f2f4fc', height: 150, width: width}}>
               <Text style={styles.item}> ID:{item.key}</Text>
               <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
               <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
@@ -534,11 +531,44 @@ static navigationOptions = {
             keyExtractor={this._keyExtractor}
         />
       </View>
+            <List>
+            <ListItem selected>
+              <Left>
+                <Text>Simon Mignolet</Text>
+              </Left>
+              <Right>
+              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
+                </GoRight>
+              </Right>
+            </ListItem>
+            <ListItem >
+             <Left>
+                <Text>Nathaniel Clyne</Text>
+              </Left>
+              <Right>
+              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
+                </GoRight>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Left>
+                <Text>Dejan Lovren</Text>
+              </Left>
+              <Right>
+              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
+                </GoRight>
+              </Right>
+            </ListItem>
+          </List>
      </Content>         
     </Container>
           );
         }
       }
+
+/*
+      control slash (se te pone editor de texto)
+*/
 
   class login extends Component {
     static navigationOptions = {
@@ -915,9 +945,9 @@ static navigationOptions = {
    <Content style= {styles.content}>
   
         <Grid>
-        <Col style={{ backgroundColor: '#f2f4fc', height: 40, width: width}}></Col>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
         </Grid>          
-          <Text style={styles.welcomeText}> Bienvenido {nameUser} !</Text> 
+          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva meta</Text> 
          <Grid>
        
    <Content style= {styles.content}>
