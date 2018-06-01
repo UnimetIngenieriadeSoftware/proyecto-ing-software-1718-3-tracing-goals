@@ -4,7 +4,7 @@ Dimensions, Icon, FlatList, TouchableOpacity
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label,
-Body, Title, List, ListItem, Left, Right} from 'native-base';
+Body, Title, List, Left, Right} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,6 +17,7 @@ import TrophyIcon from 'react-native-vector-icons/Entypo';
 import LogOutIcon from 'react-native-vector-icons/Entypo';
 import GoRight from 'react-native-vector-icons/Ionicons';
 import DatePicker from 'react-native-datepicker';
+import { ListItem } from 'react-native-elements';
 
 
 //firebase.auth.state
@@ -494,6 +495,15 @@ static navigationOptions = {
           console.log(this.state.data);
         });
       }
+
+      //como se muestra cada item de la FlatList para cada meta
+      renderItem = ({ item }) => (
+          <ListItem
+          title={item.nombre}
+          subtitle={item.numeroPrioridad}
+          />
+      )
+
         render(){
           let space = ' '; 
           const { navigation } = this.props;
@@ -509,57 +519,28 @@ static navigationOptions = {
           <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
           </Grid>
             
-            <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
-          <Grid>
-            <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: width}}></Col>
-          </Grid>
+          <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
 
-            <View style={styles.container}>
         <FlatList
           data={this.state.data}
-          renderItem={({item}) => 
+          renderItem={this.renderItem
+         //como se mostraba la lista de metas en el sprint 1
+/*
             <Grid>
               <Col style={{ backgroundColor: '#f2f4fc', height: 150, width: width}}>
               <Text style={styles.item}> ID:{item.key}</Text>
+            
               <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
+
               <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
               <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
               <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
               </Col>
             </Grid>
+            */
             }
             keyExtractor={this._keyExtractor}
         />
-      </View>
-            <List>
-            <ListItem selected>
-              <Left>
-                <Text>Simon Mignolet</Text>
-              </Left>
-              <Right>
-              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
-                </GoRight>
-              </Right>
-            </ListItem>
-            <ListItem >
-             <Left>
-                <Text>Nathaniel Clyne</Text>
-              </Left>
-              <Right>
-              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
-                </GoRight>
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Dejan Lovren</Text>
-              </Left>
-              <Right>
-              <GoRight name='ios-arrow-dropright-circle-outline' size={25} color='darkolivegreen'>
-                </GoRight>
-              </Right>
-            </ListItem>
-          </List>
      </Content>         
     </Container>
           );
@@ -1183,7 +1164,15 @@ static navigationOptions = {
     {
       color: 'gray',
       fontSize: 18,
-    }
+    },
+    viewList:
+    {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      backgroundColor: '#525D3B',
+    },
   });
   
 
