@@ -598,8 +598,26 @@ static navigationOptions = {
       //cuando la funcion renderitem se usa aqui hay que agregar un return()
                     return(
                             <ListItem
-                              title={item.nombre}
-                              subtitle= {'Prioridad: ' + item.numeroPrioridad}
+                            //se desea agrandar un poco el title
+                              title=//{item.nombre}
+                              {
+                                <View>
+                                  <Text style={{fontSize: 17, textAlign: 'left',
+                                  fontWeight: 'bold',color: '#525D3B'}}> {item.nombre} </Text>
+                                </View>
+                              }
+
+
+
+
+                              subtitle= //{'Prioridad: ' + item.numeroPrioridad}
+                              {
+                                <View>
+                                  <Text style={{fontSize: 12, textAlign: 'left',
+                                  fontWeight: '300', color: '#525D3B'}}> {'Prioridad: ' + item.numeroPrioridad} </Text>
+                                </View>
+                              }
+
                               rightIcon={
                                     
                                         <Button
@@ -751,12 +769,13 @@ class pantMostrarMetaIndividual extends Component {
         
         <Card>
           <CardItem header bordered>
-            <Text style={{color: '#525D3B', fontSize: 18, fontWeight: 'bold'}}> {nombMeta} </Text>
+            <Text style={{color: '#525D3B', fontSize: 19, fontWeight: 'bold'}}> {nombMeta} </Text>
           </CardItem>
 
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{color: '#525D3B', fontSize: 14, fontWeight: '300',
+              textAlign: 'left'}}>
                 {descripMeta}
               </Text>
             </Body>
@@ -764,7 +783,8 @@ class pantMostrarMetaIndividual extends Component {
 
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{color: '#525D3B', fontSize: 14, fontWeight: '300',
+              textAlign: 'left'}}>
                 Culminacion: {fechCulmi}
               </Text>
             </Body>
@@ -772,7 +792,8 @@ class pantMostrarMetaIndividual extends Component {
 
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{color: '#525D3B', fontSize: 14, fontWeight: '300',
+              textAlign: 'left'}}>
               Prioridad: {numPrioMeta}
               </Text>
             </Body>
@@ -780,7 +801,8 @@ class pantMostrarMetaIndividual extends Component {
 
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{color: '#525D3B', fontSize: 14, fontWeight: '300',
+              textAlign: 'left'}}>
                 Usuario ID: {usuariId}
               </Text>
             </Body>
@@ -788,7 +810,8 @@ class pantMostrarMetaIndividual extends Component {
 
           <CardItem>
             <Body>
-              <Text>
+              <Text style={{color: '#525D3B', fontSize: 14, fontWeight: '300',
+              textAlign: 'left'}}>
                 Meta ID: {keyMeta}
               </Text>
             </Body>
@@ -1430,7 +1453,7 @@ class pantMostrarMetaIndividual extends Component {
     welcomeText:
     {
       color: 'gray',
-      fontSize: 18,
+      fontSize: 16,
     },
     viewList:
     {
