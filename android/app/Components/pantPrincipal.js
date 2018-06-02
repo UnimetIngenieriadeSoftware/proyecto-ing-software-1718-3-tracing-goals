@@ -16,6 +16,9 @@ import ComputerIcon from 'react-native-vector-icons/Ionicons';
 import TrophyIcon from 'react-native-vector-icons/Entypo';
 import LogOutIcon from 'react-native-vector-icons/Entypo';
 import GoRight from 'react-native-vector-icons/Ionicons';
+import ArrowRight from 'react-native-vector-icons/Feather';
+
+
 import DatePicker from 'react-native-datepicker';
 import { ListItem } from 'react-native-elements';
 
@@ -442,7 +445,6 @@ static navigationOptions = {
     }
 
     var ellUsuarId;
-
     var spaceX = ' ';
     class pantallaMetasCreadas extends Component {
       static navigationOptions = ({ navigation }) => ({
@@ -500,7 +502,29 @@ static navigationOptions = {
       renderItem = ({ item }) => (
           <ListItem
           title={item.nombre}
-          subtitle={item.numeroPrioridad}
+          subtitle= {'Prioridad: ' + item.numeroPrioridad}
+          rightIcon={<ArrowRight name='arrow-right' size={23} color='gray' > </ArrowRight>}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           />
       )
 
