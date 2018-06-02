@@ -820,13 +820,66 @@ class pantMostrarMetaIndividual extends Component {
 
           </Card>
 
+{/* aqui poner boton para crear rutina*/}
+
+
+      <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 112}}></Col>
+
+        <Button 
+                      onPress= {() => {
+                      /*  
+                      this.props.navigation.navigate('metasCreadas',
+                      {
+                      daEmail: daEmail, 
+                      usuariId: usuariId,
+                      nameUser: nameUser,
+                      } 
+                    )
+                    */
+
+                    
+
+
+
+                      } 
+                      
+                    
+                    }
+                      style={{fontSize: 15, color: '#f2f4fc'}}
+                      containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+            >
+                      Crear Rutina {space}  
+                      <CalendarIcon name='calendar' size={15} color= 'gold'>
+                      </CalendarIcon>
+            </Button>
+
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 124}}></Col>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
            
  </Content>         
 </Container>
       );
     }
   }
-
 
 
   class login extends Component {
