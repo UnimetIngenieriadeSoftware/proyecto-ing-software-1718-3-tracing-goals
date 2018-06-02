@@ -457,9 +457,20 @@ static navigationOptions = {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerRight: (
-            <Text> </Text>
-          ),
+          headerRight: <Button
+                  onPress= {() => {
+                                    //Cerrando sesion
+                                    firebase.auth().signOut().then(() =>{
+                                      console.log('we have logged out');
+                                      //al cerrar sesion se va hacia la pagina principal
+                                      navigation.navigate('Home');
+                                    });
+                                  } 
+                            }
+                >
+                                  <LogOutIcon name='log-out' size={20} color='white'>
+                                  </LogOutIcon>
+                </Button>,
       });
       constructor(props){
         super(props);
@@ -539,72 +550,109 @@ static navigationOptions = {
      <Container>
      <Content style= {styles.content}>
     
-          <Grid>
-          <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
-          </Grid>
-            
-          <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
 
-        <FlatList
-          data={this.state.data}
-          renderItem={//this.renderItem
-            //la funcion renderItem tiene que estar aqui ya que se usa navigation
-            //y dentro de navigation se mandan el email, usuarioid y nombre usuario
-            ({item}) => {
-              //cuando la funcion renderitem se usa aqui hay que agregar un return()
-                            return(
-                                    <ListItem
-                                      title={item.nombre}
-                                      subtitle= {'Prioridad: ' + item.numeroPrioridad}
-                                      rightIcon={
+    <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
+    </Grid>
+
+             <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 65, width: 50}}></Col>
+  
+          <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
+          </BarGraphIcon>
+  
+          <CalendarIcon name='calendar' size={45} color= 'gold'>
+          </CalendarIcon>
+  
+          <StarIcon name='star-circle' size={45} color= 'dodgerblue'>
+          </StarIcon>
+  
+          <GraduationCap name='graduation-cap' size={45} color='black'>
+          </GraduationCap>
+  
+          <BookIcon name='open-book' size={45} color= 'darkolivegreen'>
+          </BookIcon>
+  
+          <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
+          </ComputerIcon>
+          
+          <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
+    </Grid>
+
+
+
+
+
+
+            <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
+
+
+            <View style={{height: 300}}>
+
+<FlatList
+  data={this.state.data}
+  renderItem={//this.renderItem
+    //la funcion renderItem tiene que estar aqui ya que se usa navigation
+    //y dentro de navigation se mandan el email, usuarioid y nombre usuario
+    ({item}) => {
+      //cuando la funcion renderitem se usa aqui hay que agregar un return()
+                    return(
+                            <ListItem
+                              title={item.nombre}
+                              subtitle= {'Prioridad: ' + item.numeroPrioridad}
+                              rightIcon={
+                                    
+                                        <Button
+                                          onPress= {() => {
+                                          //cuando este boton este presionado se tiene que ir a una seccion donde
+                                          //se muestre la meta con toda su informacion, y todas sus rutinas asociadas
+
+                                          //hay que enviar email del usuario, usuarioid, y key de la meta
+
+                                            //los datos de la meta son: descripcion, fechaCulminacion, nombre,
+                                            //numeroPrioridad, usuarioId
+                                            //buscarlos en Firebase
+                                            firebase.database().ref('Metas/'+item.key).once('value', snapshot => {
                                             
-                                                <Button
-                                                  onPress= {() => {
-                                                  //cuando este boton este presionado se tiene que ir a una seccion donde
-                                                  //se muestre la meta con toda su informacion, y todas sus rutinas asociadas
-
-                                                  //hay que enviar email del usuario, usuarioid, y key de la meta
-
-                                                    //los datos de la meta son: descripcion, fechaCulminacion, nombre,
-                                                    //numeroPrioridad, usuarioId
-                                                    //buscarlos en Firebase
-                                                    firebase.database().ref('Metas/'+item.key).once('value', snapshot => {
-                                                    
-                                                    var dData = snapshot.val();
-                                                    
-                                                  this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyMeta: item.key,
-                                                  descripcionMeta: dData.descripcion, fechaCulminacion: dData.fechaCulminacion, nombreMeta: dData.nombre, numeroPriorid: dData.numeroPrioridad
-                                                })
-                                                    
-                                                    
-                                                    });
-                                                                  }
+                                            var dData = snapshot.val();
+                                            
+                                          this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyMeta: item.key,
+                                          descripcionMeta: dData.descripcion, fechaCulminacion: dData.fechaCulminacion, nombreMeta: dData.nombre, numeroPriorid: dData.numeroPrioridad
+                                        })
+                                            
+                                            
+                                            });
                                                           }
-                                                >
-                                                <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
-                                              </Button>
-                                                }
-                                    />
-                                  )
-                        }
+                                                  }
+                                        >
+                                        <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
+                                      </Button>
+                                        }
+                            />
+                          )
+                }
 
-         //como se mostraba la lista de metas en el sprint 1
+ //como se mostraba la lista de metas en el sprint 1
 /*
-            <Grid>
-              <Col style={{ backgroundColor: '#f2f4fc', height: 150, width: width}}>
-              <Text style={styles.item}> ID:{item.key}</Text>
-            
-              <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
+    <Grid>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 150, width: width}}>
+      <Text style={styles.item}> ID:{item.key}</Text>
+    
+      <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
 
-              <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
-              <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
-              <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
-              </Col>
-            </Grid>
-            */
-            }
-            keyExtractor={this._keyExtractor}
-        />
+      <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
+      <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
+      <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
+      </Col>
+    </Grid>
+    */
+    }
+    keyExtractor={this._keyExtractor}
+/>
+
+      </View>
+
+          
      </Content>         
     </Container>
           );
@@ -1078,9 +1126,20 @@ class pantMostrarMetaIndividual extends Component {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerRight: (
-          <Text> </Text>
-        ),
+        headerRight: <Button
+                  onPress= {() => {
+                                    //Cerrando sesion
+                                    firebase.auth().signOut().then(() =>{
+                                      console.log('we have logged out');
+                                      //al cerrar sesion se va hacia la pagina principal
+                                      navigation.navigate('Home');
+                                    });
+                                  } 
+                            }
+                >
+                                  <LogOutIcon name='log-out' size={20} color='white'>
+                                  </LogOutIcon>
+                </Button>,
     });
   
     constructor(props){
