@@ -1071,7 +1071,7 @@ static navigationOptions = {
                           nombre: nombreMet,
                           numeroPrioridad: parseInt(numeroPrior),
                           usuarioId: usuariId,
-                          id: codigoNuevaMeta,
+                          key: codigoNuevaMeta,
                         });
                       })
 
