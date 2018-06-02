@@ -4,7 +4,7 @@ Dimensions, Icon, FlatList, TouchableOpacity
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label,
-Body, Title, List, Left, Right} from 'native-base';
+Body, Title, List, Left, Right, Card, CardItem} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -499,34 +499,34 @@ static navigationOptions = {
       }
 
       //como se muestra cada item de la FlatList para cada meta
+      
+
+
+      //antes se usaba el renderitem en una funcion aparte
+      //se cambio debido a que hay que usar navigation y mandar variables
+      //que no son accesibles aqui
+      /*
       renderItem = ({ item }) => (
           <ListItem
           title={item.nombre}
           subtitle= {'Prioridad: ' + item.numeroPrioridad}
-          rightIcon={<ArrowRight name='arrow-right' size={23} color='gray' > </ArrowRight>}
+          rightIcon={
+          
+            <Button
+            onPress= {() => {
+              //cuando este boton este presionado se tiene que ir a una seccion donde
+              //se muestre la meta con toda su informacion, y todas sus rutinas asociadas
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+              //hay que enviar email del usuario, usuarioid, y key de la meta
+              this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, keyMeta: item.key })
+              } }
+            >
+              <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
+            </Button>
+        }
           />
       )
+*/
 
         render(){
           let space = ' '; 
@@ -547,7 +547,47 @@ static navigationOptions = {
 
         <FlatList
           data={this.state.data}
-          renderItem={this.renderItem
+          renderItem={//this.renderItem
+            //la funcion renderItem tiene que estar aqui ya que se usa navigation
+            //y dentro de navigation se mandan el email, usuarioid y nombre usuario
+            ({item}) => {
+              //cuando la funcion renderitem se usa aqui hay que agregar un return()
+                            return(
+                                    <ListItem
+                                      title={item.nombre}
+                                      subtitle= {'Prioridad: ' + item.numeroPrioridad}
+                                      rightIcon={
+                                            
+                                                <Button
+                                                  onPress= {() => {
+                                                  //cuando este boton este presionado se tiene que ir a una seccion donde
+                                                  //se muestre la meta con toda su informacion, y todas sus rutinas asociadas
+
+                                                  //hay que enviar email del usuario, usuarioid, y key de la meta
+
+                                                    //los datos de la meta son: descripcion, fechaCulminacion, nombre,
+                                                    //numeroPrioridad, usuarioId
+                                                    //buscarlos en Firebase
+                                                    firebase.database().ref('Metas/'+item.key).once('value', snapshot => {
+                                                    
+                                                    var dData = snapshot.val();
+                                                    
+                                                  this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyMeta: item.key,
+                                                  descripcionMeta: dData.descripcion, fechaCulminacion: dData.fechaCulminacion, nombreMeta: dData.nombre, numeroPriorid: dData.numeroPrioridad
+                                                })
+                                                    
+                                                    
+                                                    });
+                                                                  }
+                                                          }
+                                                >
+                                                <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
+                                              </Button>
+                                                }
+                                    />
+                                  )
+                        }
+
          //como se mostraba la lista de metas en el sprint 1
 /*
             <Grid>
@@ -574,6 +614,149 @@ static navigationOptions = {
 /*
       control slash (se te pone editor de texto)
 */
+
+
+class pantMostrarMetaIndividual extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Meta',
+      headerStyle: {
+        backgroundColor: '#525D3B',
+      },
+      headerTintColor: '#f2f4fc',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },  
+    headerRight: <Button
+                  onPress= {() => {
+                                    //Cerrando sesion
+                                    firebase.auth().signOut().then(() =>{
+                                      console.log('we have logged out');
+                                      //al cerrar sesion se va hacia la pagina principal
+                                      navigation.navigate('Home');
+                                    });
+                                  } 
+                            }
+                >
+                                  <LogOutIcon name='log-out' size={20} color='white'>
+                                  </LogOutIcon>
+                </Button>
+    };
+  };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      isSignedIn: false,
+      userLoggedInDisplay: 'flex',
+    };
+  }
+
+    render(){
+      let space = ' '; 
+      const { navigation } = this.props;
+      const daEmail = navigation.getParam('emaill', 'aDefaultValue');
+      const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+      const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
+      const keyMeta = navigation.getParam('keyMeta', 'aDefaultValueForTheyKey');
+      const descripMeta = navigation.getParam('descripcionMeta', 'aDefValue');
+      const fechCulmi = navigation.getParam('fechaCulminacion', 'aValueForDefault');
+      const nombMeta = navigation.getParam('nombreMeta','aDValue');
+      const numPrioMeta = navigation.getParam('numeroPriorid','umvalue');
+
+
+      return(
+ <Container>
+ <Content style= {styles.content}>  
+
+  <Grid>
+    <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
+  </Grid>
+
+  <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 65, width: 50}}></Col>
+
+        <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
+        </BarGraphIcon>
+
+        <CalendarIcon name='calendar' size={45} color= 'gold'>
+        </CalendarIcon>
+
+        <StarIcon name='star-circle' size={45} color= 'dodgerblue'>
+        </StarIcon>
+
+        <GraduationCap name='graduation-cap' size={45} color='black'>
+        </GraduationCap>
+
+        <BookIcon name='open-book' size={45} color= 'darkolivegreen'>
+        </BookIcon>
+
+        <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
+        </ComputerIcon>
+        
+        <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
+  </Grid>
+
+      <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col> 
+      </Grid>
+        
+        <Card>
+          <CardItem header bordered>
+            <Text style={{color: '#525D3B', fontSize: 18, fontWeight: 'bold'}}> {nombMeta} </Text>
+          </CardItem>
+
+          <CardItem>
+            <Body>
+              <Text>
+                {descripMeta}
+              </Text>
+            </Body>
+          </CardItem>
+
+          <CardItem>
+            <Body>
+              <Text>
+                Culminacion: {fechCulmi}
+              </Text>
+            </Body>
+          </CardItem>
+
+          <CardItem>
+            <Body>
+              <Text>
+              Prioridad: {numPrioMeta}
+              </Text>
+            </Body>
+          </CardItem>
+
+          <CardItem>
+            <Body>
+              <Text>
+                Usuario ID: {usuariId}
+              </Text>
+            </Body>
+          </CardItem>
+
+          <CardItem>
+            <Body>
+              <Text>
+                Meta ID: {keyMeta}
+              </Text>
+            </Body>
+          </CardItem>
+
+
+          </Card>
+
+           
+ </Content>         
+</Container>
+      );
+    }
+  }
+
+
 
   class login extends Component {
     static navigationOptions = {
@@ -1109,6 +1292,7 @@ static navigationOptions = {
       CrearCuenta: crearCuenta,
       crearMeta: pantallaCrearMeta,
       metasCreadas: pantallaMetasCreadas,
+      mostrarLaMeta: pantMostrarMetaIndividual,
     },
     {
       initialRouteName: 'Home',
