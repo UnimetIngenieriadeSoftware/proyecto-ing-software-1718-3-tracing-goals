@@ -858,6 +858,14 @@ class pantMostrarMetaIndividual extends Component {
     }
   }
 
+
+
+
+
+var nombreRut = '';
+var numeroPriorRut = '';
+
+
   class pantallaCrearRutina extends Component {
     static navigationOptions = ({ navigation }) => ({
         //title: 'Email is: ' + navigation.state.params.emaill ,
@@ -887,41 +895,6 @@ class pantMostrarMetaIndividual extends Component {
   
     constructor(props){
       super(props);
-      this.state = {
-        nombreMeta: '',
-        descripcionMeta: '',
-        numeroPrioridad: 1,
-        fechaCulminacion: '',
-      };
-    }
-    onDateChange(date){
-      this.setState({
-        fechaCulminacion: date
-      });
-    }
-    onNombreMetaChange(nombreMeta){
-      this.setState({
-        nombreMeta: nombreMeta
-      });
-    }
-    onNumeroPChange(numeroP){
-      this.setState({
-        numeroPrioridad: numeroP
-      });
-    }
-    onDescripcionMetaChange(descripcion){
-      this.setState({
-        descripcionMeta: descripcion
-      });
-    }
-    componentDidMount(){
-      firebase.auth().onAuthStateChanged(user => {
-        if(user){
-          this.setState({correo: user.email})
-        } else {
-
-        }
-      });
     }
 
       render(){
@@ -940,7 +913,7 @@ class pantMostrarMetaIndividual extends Component {
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
         </Grid>          
-          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva meta</Text> 
+          <Text style={styles.welcomeText}> {nameUser}, ingreseos datos de la nueva rutina</Text> 
          <Grid>
        
    <Content style= {styles.content}>
@@ -949,11 +922,7 @@ class pantMostrarMetaIndividual extends Component {
          <Label>Nombre</Label>
          <Input 
          onChangeText={(text) => {
-          nombreMet = text;
-          this.setState({
-            nombreMeta: nombreMet
-          });
-          console.log('El nombre de la meta se ha cambiado a: ' + nombreMet)
+          nombreRut = text;
         }}
          />
        </Item>
@@ -961,23 +930,18 @@ class pantMostrarMetaIndividual extends Component {
          <Label>Descripcion</Label>
          <Input 
          onChangeText={(text) => {
-          descrip = text;
-          this.setState({
-            descripcionMeta: descrip
-          });
-          console.log('La descripcion de la meta se ha cambiado a: '+ descrip)
+          numeroPriorRut = text;
         }}
          />
        </Item>
+
+       {/*cada cuanto se repite. */}
        <Item floatingLabel>
          <Label>Numero de prioridad</Label>
          <Input 
          keyboardType = 'numeric'
          onChangeText={(text) => {
           numeroPrior = text;
-          this.setState({
-            numeroPrioridad: numeroPrior
-          });
           console.log('El numero de prioridad se ha cambiado a: '+ numeroPrior);
         }}
          />
@@ -989,6 +953,7 @@ class pantMostrarMetaIndividual extends Component {
 
         <Item>
           <Label>Fecha de culminacion </Label>
+       {/*
        <DatePicker
        date={this.state.date}
        placeholder='Fecha de Culminacion'
@@ -1012,6 +977,8 @@ class pantMostrarMetaIndividual extends Component {
         }
         }}  
        />
+
+       */}
         </Item>
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
