@@ -822,29 +822,25 @@ class pantMostrarMetaIndividual extends Component {
 
 {/* aqui poner boton para crear rutina*/}
 
+        
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+        </Grid>
 
       <Grid>
       <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 112}}></Col>
 
         <Button 
                       onPress= {() => {
-                      /*  
-                      this.props.navigation.navigate('metasCreadas',
+                      this.props.navigation.navigate('crearRutina',
                       {
                       daEmail: daEmail, 
                       usuariId: usuariId,
                       nameUser: nameUser,
+                      metaId: keyMeta,
                       } 
                     )
-                    */
-
-                    
-
-
-
                       } 
-                      
-                    
                     }
                       style={{fontSize: 15, color: '#f2f4fc'}}
                       containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
@@ -856,30 +852,247 @@ class pantMostrarMetaIndividual extends Component {
 
         <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 124}}></Col>
         </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-           
  </Content>         
 </Container>
       );
     }
   }
+
+  class pantallaCrearRutina extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        //title: 'Email is: ' + navigation.state.params.emaill ,
+        title: 'Crear Rutina',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: <Button
+                  onPress= {() => {
+                                    //Cerrando sesion
+                                    firebase.auth().signOut().then(() =>{
+                                      console.log('we have logged out');
+                                      //al cerrar sesion se va hacia la pagina principal
+                                      navigation.navigate('Home');
+                                    });
+                                  } 
+                            }
+                >
+                                  <LogOutIcon name='log-out' size={20} color='white'>
+                                  </LogOutIcon>
+                </Button>,
+    });
+  
+    constructor(props){
+      super(props);
+      this.state = {
+        nombreMeta: '',
+        descripcionMeta: '',
+        numeroPrioridad: 1,
+        fechaCulminacion: '',
+      };
+    }
+    onDateChange(date){
+      this.setState({
+        fechaCulminacion: date
+      });
+    }
+    onNombreMetaChange(nombreMeta){
+      this.setState({
+        nombreMeta: nombreMeta
+      });
+    }
+    onNumeroPChange(numeroP){
+      this.setState({
+        numeroPrioridad: numeroP
+      });
+    }
+    onDescripcionMetaChange(descripcion){
+      this.setState({
+        descripcionMeta: descripcion
+      });
+    }
+    componentDidMount(){
+      firebase.auth().onAuthStateChanged(user => {
+        if(user){
+          this.setState({correo: user.email})
+        } else {
+
+        }
+      });
+    }
+
+      render(){
+        var space = ' ';
+        const { navigation } = this.props;
+        const daEmaill = navigation.getParam('daEmaill', 'aDefaultValue');
+        const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+        const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
+        const metaId = navigation.getParam('metaId', 'defValue');
+
+        return(
+   <Container>
+  
+   <Content style= {styles.content}>
+  
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
+        </Grid>          
+          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva meta</Text> 
+         <Grid>
+       
+   <Content style= {styles.content}>
+     <Form>
+       <Item floatingLabel>
+         <Label>Nombre</Label>
+         <Input 
+         onChangeText={(text) => {
+          nombreMet = text;
+          this.setState({
+            nombreMeta: nombreMet
+          });
+          console.log('El nombre de la meta se ha cambiado a: ' + nombreMet)
+        }}
+         />
+       </Item>
+       <Item floatingLabel>
+         <Label>Descripcion</Label>
+         <Input 
+         onChangeText={(text) => {
+          descrip = text;
+          this.setState({
+            descripcionMeta: descrip
+          });
+          console.log('La descripcion de la meta se ha cambiado a: '+ descrip)
+        }}
+         />
+       </Item>
+       <Item floatingLabel>
+         <Label>Numero de prioridad</Label>
+         <Input 
+         keyboardType = 'numeric'
+         onChangeText={(text) => {
+          numeroPrior = text;
+          this.setState({
+            numeroPrioridad: numeroPrior
+          });
+          console.log('El numero de prioridad se ha cambiado a: '+ numeroPrior);
+        }}
+         />
+       </Item>
+
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+        </Grid>
+
+        <Item>
+          <Label>Fecha de culminacion </Label>
+       <DatePicker
+       date={this.state.date}
+       placeholder='Fecha de Culminacion'
+       mode='date'
+       onDateChange = {(date) => {
+        fechCulm = date;
+        this.setState({
+          fechaCulminacion: fechCulm
+        });
+          console.log('La fecha de culminacion se ha cambiad a: '+ fechCulm);
+        }}
+       customStyles={{
+        dateIcon: {
+          position: 'absolute',
+          left: 0,
+          top: 4,
+          marginLeft: 0
+        },
+        dateInput: {
+          marginLeft: 36
+        }
+        }}  
+       />
+        </Item>
+        <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+        </Grid>
+
+       <Grid>
+       <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+          <Button 
+                    onPress= {() => {
+                      //aqui hay que llamar a firebase y crear la meta
+                      //primero vamos a recibirla y mostrarla por consola
+                      firebase.database().ref('Metas/').once('value').then(snapshot => {
+                        console.log(JSON.stringify(snapshot))
+                        //en snapshot tengo la data.
+                        //Ahora quiero saber cual es la meta con mayor numero de id,
+                        //para la cual coloca sea mayor en 1
+
+                        myObj = snapshot.val();
+
+
+                        console.log(myObj);
+                        console.log('SEPARACION');
+
+                        var codigoNuevaMeta=0;
+                        for(x in myObj)
+                        { 
+                          console.log(x);
+                          if(codigoNuevaMeta<=parseInt(x))
+                          {
+                            codigoNuevaMeta=parseInt(x);
+                          }
+                        }
+                        codigoNuevaMeta=codigoNuevaMeta+1;
+                        console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta);
+
+                        console.log(descrip);
+
+
+                        console.log('usuario id es: '+usuariId);
+
+                        console.log('numero prioridad es: '+numeroPrior);
+                        firebase.database().ref('Metas/'+codigoNuevaMeta).set({
+                          descripcion: descrip,
+                          fechaCulminacion: fechCulm,
+                          nombre: nombreMet,
+                          numeroPrioridad: parseInt(numeroPrior),
+                          usuarioId: usuariId,
+                          key: codigoNuevaMeta,
+                        });
+                      })
+
+
+                      //navegar hacia pagina principal
+                      this.props.navigation.navigate('Home3');
+                    } }
+                    style={{fontSize: 15, color: '#f2f4fc'}}
+                    containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+          >
+                    Crear {space}
+                    <TrophyIcon name='trophy' size={15} color= 'gold'>
+                    </TrophyIcon>
+          </Button>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+        </Grid>
+            
+  
+     </Form>
+   </Content>    
+        </Grid>                       
+   </Content>         
+  </Container>
+        );
+      }
+    }
+
+
+
+
+
+
+
 
 
   class login extends Component {
@@ -1428,6 +1641,7 @@ class pantMostrarMetaIndividual extends Component {
       crearMeta: pantallaCrearMeta,
       metasCreadas: pantallaMetasCreadas,
       mostrarLaMeta: pantMostrarMetaIndividual,
+      crearRutina: pantallaCrearRutina,
     },
     {
       initialRouteName: 'Home',
