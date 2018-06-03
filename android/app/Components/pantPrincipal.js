@@ -6,6 +6,12 @@ import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label,
 Body, Title, List, Left, Right, Card, CardItem} from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+
+//para mostrar las rutinas en un calendario. componente Agenda nos va a servir
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+
+
+
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CalendarIcon from 'react-native-vector-icons/FontAwesome';
@@ -864,7 +870,8 @@ class pantMostrarMetaIndividual extends Component {
 
 var nombreRut = '';
 var numeroPriorRut = '';
-
+var tiempoAntesNot;
+var tiempoDespuesNot;
 
   class pantallaCrearRutina extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -913,13 +920,13 @@ var numeroPriorRut = '';
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
         </Grid>          
-          <Text style={styles.welcomeText}> {nameUser}, ingreseos datos de la nueva rutina</Text> 
+          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva rutina</Text> 
          <Grid>
        
    <Content style= {styles.content}>
      <Form>
        <Item floatingLabel>
-         <Label>Nombre</Label>
+         <Label style={{fontSize: 12}}>Nombre</Label>
          <Input 
          onChangeText={(text) => {
           nombreRut = text;
@@ -927,8 +934,9 @@ var numeroPriorRut = '';
          />
        </Item>
        <Item floatingLabel>
-         <Label>Descripcion</Label>
+         <Label style={{fontSize: 12}}>Numero de prioridad</Label>
          <Input 
+         keyboardType = 'numeric'
          onChangeText={(text) => {
           numeroPriorRut = text;
         }}
@@ -937,23 +945,37 @@ var numeroPriorRut = '';
 
        {/*cada cuanto se repite. */}
        <Item floatingLabel>
-         <Label>Numero de prioridad</Label>
+         <Label style={{fontSize: 12}}>Minutos antes en emitir notificacion de aviso</Label>
          <Input 
          keyboardType = 'numeric'
          onChangeText={(text) => {
-          numeroPrior = text;
-          console.log('El numero de prioridad se ha cambiado a: '+ numeroPrior);
+          tiempoAntesNot = text;
         }}
          />
        </Item>
+
+        <Item floatingLabel>
+         <Label style={{fontSize: 12}}>Minutos despues en preguntar por completacion</Label>
+         <Input 
+         keyboardType = 'numeric'
+         onChangeText={(text) => {
+          tiempoDespuesNot = text;
+        }}
+         />
+       </Item>
+
+
+
 
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
         </Grid>
 
+
+        {/*
         <Item>
           <Label>Fecha de culminacion </Label>
-       {/*
+       
        <DatePicker
        date={this.state.date}
        placeholder='Fecha de Culminacion'
@@ -978,8 +1000,9 @@ var numeroPriorRut = '';
         }}  
        />
 
-       */}
         </Item>
+        */}
+
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
         </Grid>
