@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, Image, AppRegistry,
-Dimensions, Icon, FlatList, TouchableOpacity
+Dimensions, Icon, FlatList, TouchableOpacity, Picker
 } from 'react-native'; 
 import Button from 'react-native-button';
 import { Container, Header, Content, Form, Item, Input, Label,
@@ -11,7 +11,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 
-
+//Iconos
 import GoBackIcon from 'react-native-vector-icons/Entypo';
 import StarIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CalendarIcon from 'react-native-vector-icons/FontAwesome';
@@ -844,6 +844,7 @@ class pantMostrarMetaIndividual extends Component {
                       usuariId: usuariId,
                       nameUser: nameUser,
                       metaId: keyMeta,
+                      nombreMeta: nombMeta,
                       } 
                     )
                       } 
@@ -911,6 +912,7 @@ var tiempoDespuesNot;
         const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
         const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
         const metaId = navigation.getParam('metaId', 'defValue');
+        const nombreMeta = navigation.getParam('nombreMeta', 'dfvalue');
 
         return(
    <Container>
@@ -920,7 +922,7 @@ var tiempoDespuesNot;
         <Grid>
         <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
         </Grid>          
-          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva rutina</Text> 
+          <Text style={styles.welcomeText}> {nameUser}, ingrese los datos de la nueva rutina de la meta: {nombreMeta}</Text> 
          <Grid>
        
    <Content style= {styles.content}>
@@ -1007,60 +1009,33 @@ var tiempoDespuesNot;
         <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
         </Grid>
 
-       <Grid>
+        <Grid>
        <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
           <Button 
                     onPress= {() => {
-                      //aqui hay que llamar a firebase y crear la meta
-                      //primero vamos a recibirla y mostrarla por consola
-                      firebase.database().ref('Metas/').once('value').then(snapshot => {
-                        console.log(JSON.stringify(snapshot))
-                        //en snapshot tengo la data.
-                        //Ahora quiero saber cual es la meta con mayor numero de id,
-                        //para la cual coloca sea mayor en 1
+                      
+                      //ir a una siguiente pantalla que permita establecer las condiciones de: cuanto tiempo durara, cada cuanto se repetira, etc.
 
-                        myObj = snapshot.val();
+                      //crear nueva pantalla
 
+                      //crearRutina2
 
-                        console.log(myObj);
-                        console.log('SEPARACION');
-
-                        var codigoNuevaMeta=0;
-                        for(x in myObj)
-                        { 
-                          console.log(x);
-                          if(codigoNuevaMeta<=parseInt(x))
-                          {
-                            codigoNuevaMeta=parseInt(x);
-                          }
-                        }
-                        codigoNuevaMeta=codigoNuevaMeta+1;
-                        console.log('El codigo de la nueva meta sera: '+ codigoNuevaMeta);
-
-                        console.log(descrip);
-
-
-                        console.log('usuario id es: '+usuariId);
-
-                        console.log('numero prioridad es: '+numeroPrior);
-                        firebase.database().ref('Metas/'+codigoNuevaMeta).set({
-                          descripcion: descrip,
-                          fechaCulminacion: fechCulm,
-                          nombre: nombreMet,
-                          numeroPrioridad: parseInt(numeroPrior),
-                          usuarioId: usuariId,
-                          key: codigoNuevaMeta,
-                        });
-                      })
-
-
-                      //navegar hacia pagina principal
-                      this.props.navigation.navigate('Home3');
+                      this.props.navigation.navigate('crearRutina2',
+                      {
+                      nombreRut: nombreRut, 
+                      numeroPriorRut: numeroPriorRut,
+                      nameUser: nameUser,
+                      metaId: metaId,
+                      tiempoAntesNot: tiempoAntesNot,
+                      tiempoDespuesNot: tiempoDespuesNot,
+                      usuariId: usuariId,
+                      } 
+                    )
                     } }
                     style={{fontSize: 15, color: '#f2f4fc'}}
                     containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
           >
-                    Crear {space}
+                    Continuar {space}
                     <TrophyIcon name='trophy' size={15} color= 'gold'>
                     </TrophyIcon>
           </Button>
@@ -1077,11 +1052,196 @@ var tiempoDespuesNot;
       }
     }
 
+    //esta pantalla sirve simplemente para preguntar cuantas veces por dia se repetira
+    //la rutina
+    class pantallaCrearRutina2 extends Component {
+      static navigationOptions = {
+        title: 'Crear Rutina',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: <Button
+        onPress= {() => {
+                          //Cerrando sesion
+                          firebase.auth().signOut().then(() =>{
+                            console.log('we have logged out');
+                            //al cerrar sesion se va hacia la pagina principal
+                            navigation.navigate('Home');
+                          });
+                        } 
+                  }
+      >
+                        <LogOutIcon name='log-out' size={20} color='white'>
+                        </LogOutIcon>
+      </Button>,
+    };
+  
+      constructor(props){
+        super(props);
+        this.state = {
+          repeticionesPorDia: 1,
+        };
+      }
+
+        render(){
+          var space = ' ';
+          const { navigation } = this.props;
+          const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
+          const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
+          const nameUser = navigation.getParam('nameUser','aDeffValue');
+          const metaId = navigation.getParam('metaId', 'aDefffValue');
+          const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
+          const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
+          const usuariId = navigation.getParam('usuariId','dvalue');
+          var repPorDia;
+          return(
+     <Container>
+    
+     <Content style= {styles.content}>
+       <Form>
+          
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+          </Grid>
+
+            <Text style={styles.welcomeText}> Indique cuantas veces por dia se repetira la rutina: {nombreRut} </Text> 
+
+          <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
+          </Grid>
+
+              <Picker
+                selectedValue={this.state.repeticionesPorDia}        
+                onValueChange={(itemValue, itemIndex) =>  this.setState({repeticionesPorDia: itemValue}) }
+              >
+              <Picker.Item label='1' value = '1' />
+              <Picker.Item label='2' value = '2' />
+              <Picker.Item label='3' value = '3' />
+                </Picker>
+
+            <Grid>
+                <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+                    <Button 
+                              onPress= {() => {
+                                repPorDia = this.state.repeticionesPorDia;
+                                this.props.navigation.navigate('crearRutina3',
+                                {
+                                nombreRut: nombreRut, 
+                                numeroPriorRut: numeroPriorRut,
+                                nameUser: nameUser,
+                                metaId: metaId,
+                                tiempoAntesNot: tiempoAntesNot,
+                                tiempoDespuesNot: tiempoDespuesNot,
+                                usuariId: usuariId,
+                                vecesPorDia: repPorDia,
+                                } 
+                              )
+                              } }
+                              style={{fontSize: 15, color: '#f2f4fc'}}
+                              containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                              Continuar {space}
+                              <TrophyIcon name='trophy' size={15} color= 'gold'>
+                              </TrophyIcon>
+                    </Button>
+                    <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+          </Grid>
+       </Form>
+     </Content>         
+    </Container>
+          
+          );
+        }  
+      
+     }
 
 
+     class pantallaCrearRutina3 extends Component {
+      static navigationOptions = {
+        title: 'Crear Rutina',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: <Button
+        onPress= {() => {
+                          //Cerrando sesion
+                          firebase.auth().signOut().then(() =>{
+                            console.log('we have logged out');
+                            //al cerrar sesion se va hacia la pagina principal
+                            navigation.navigate('Home');
+                          });
+                        } 
+                  }
+      >
+                        <LogOutIcon name='log-out' size={20} color='white'>
+                        </LogOutIcon>
+      </Button>,
+    };
+  
+      constructor(props){
+        super(props);
+      }
 
+        render(){
+          var space = ' ';
+          const { navigation } = this.props;
+          const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
+          const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
+          const nameUser = navigation.getParam('nameUser','aDeffValue');
+          const metaId = navigation.getParam('metaId', 'aDefffValue');
+          const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
+          const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
+          const usuariId = navigation.getParam('usuariId','dvalue');
+          const vecesPorDia = navigation.getParam('vecesPorDia','dVValue');
 
+          return(
+     <Container>
+    
+     <Content style= {styles.content}>
+       <Form>
+          
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+          </Grid>
 
+            <Text style={styles.welcomeText}> Indique cuantas veces por dia se repetira la rutina: {nombreRut} </Text> 
+
+          <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
+          </Grid>
+
+            <Grid>
+                <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+                    <Button 
+                              onPress= {() => {
+
+                                
+                              } }
+                              style={{fontSize: 15, color: '#f2f4fc'}}
+                              containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                              Continuar {space}
+                              <TrophyIcon name='trophy' size={15} color= 'gold'>
+                              </TrophyIcon>
+                    </Button>
+                    <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+          </Grid>
+       </Form>
+     </Content>         
+    </Container>
+          
+          );
+        }  
+      
+     }
 
 
 
@@ -1632,6 +1792,8 @@ var tiempoDespuesNot;
       metasCreadas: pantallaMetasCreadas,
       mostrarLaMeta: pantMostrarMetaIndividual,
       crearRutina: pantallaCrearRutina,
+      crearRutina2: pantallaCrearRutina2,
+      crearRutina3: pantallaCrearRutina3,
     },
     {
       initialRouteName: 'Home',
