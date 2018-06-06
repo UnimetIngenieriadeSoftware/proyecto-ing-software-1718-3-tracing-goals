@@ -10,8 +10,9 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 //para mostrar las rutinas en un calendario. componente Agenda nos va a servir
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
+//Para seleccionar los dias de la semana en que se repetira la rutina
+import SelectMultiple from 'react-native-select-multiple';
 
-//Para mostrar o no mostrar sus componentes hijos
 
 //Iconos
 import GoBackIcon from 'react-native-vector-icons/Entypo';
@@ -1198,6 +1199,14 @@ var tiempoDespuesNot;
           selectedFinHours2: 0,
           selectedFinMinutes2: 0,
         };
+        this.function1 = this.function1.bind(this);
+      }
+
+      function1(itemValue){
+        selectedInicioHours1 = itemValue;
+        this.setState({
+          selectedInicioHours1: itemValue
+        });
       }
 
         render(){
@@ -1212,15 +1221,15 @@ var tiempoDespuesNot;
           const usuariId = navigation.getParam('usuariId','dvalue');
           const vecesPorDia = navigation.getParam('vecesPorDia','dVValue');
 
-          var selectedInicioHours1 = 0;
-          var selectedInicioMinutes1 = 0;
-          var selectedFinHours1 = 0;
-          var selectedFinMinutes1 = 0;
+          var selectedInicioHours1;
+          var selectedInicioMinutes1;
+          var selectedFinHours1;
+          var selectedFinMinutes1;
 
-          var selectedInicioHours2 = 0;
-          var selectedInicioMinutes2 = 0;
-          var selectedFinHours2 = 0;
-          var selectedFinMinutes2 = 0;
+          var selectedInicioHours2 ;
+          var selectedInicioMinutes2;
+          var selectedFinHours2;
+          var selectedFinMinutes2;
 
           //si la rutina se repite 1 vez por dia que no se muestre el segundo timepicker
           //como hago? necesito una variable que esta true o false dependiendo del valor de vecesPorDia
@@ -1243,9 +1252,7 @@ var tiempoDespuesNot;
             <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
             
           </Grid>
-            
-           
-
+          
             <View>
             <Text style={{fontSize: 25, color: '#525D3B', fontWeight: 'bold'}}> 1era </Text>
               <Text style={{fontSize: 15, color: '#525D3B', fontWeight: 'bold'}}> Inicio </Text>
@@ -1260,12 +1267,22 @@ var tiempoDespuesNot;
               
                       <Picker
                         selectedValue={this.state.selectedInicioHours1}        
-                        onValueChange={(itemValue, itemIndex) => {
+                        onValueChange={
+
+                          (itemValue,itemIndex) => {this.function1(itemValue)}
+
+
+
+                          /*
+                          (itemValue, itemIndex) => {
                           this.setState({
                             selectedInicioHours1: itemValue
                           })
                           selectedInicioHours1=itemValue;
-                        } }
+                          console.log('this.state.selectedInicioHours1: '+this.state.selectedInicioHours1);
+                        } 
+                      */
+                      }
                       >
                         <Picker.Item label='0' value = '0' />
                         <Picker.Item label='1' value = '1' />
@@ -1419,7 +1436,7 @@ var tiempoDespuesNot;
 
         <Text style={{color: '#525D3B'}}> Minuto </Text>
         <Picker
-          selectedValue={this.state.selectedMinutes1}        
+          selectedValue={this.state.selectedFinMinutes1}        
           onValueChange={(itemValue, itemIndex) => {
             this.setState({
               selectedFinMinutes1: itemValue
@@ -1766,6 +1783,10 @@ var tiempoDespuesNot;
             se pasan todos los parametros, el siguiente paso es preguntar los dias de la semana los cuales las rutinas
             se activaran
             */}
+
+
+        <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
             <Button 
                               onPress= {() => {
                                 repPorDia = this.state.repeticionesPorDia;
@@ -1784,14 +1805,24 @@ var tiempoDespuesNot;
 
                                 
                                 //se manda la info del tiempo de inicio y de salida de la repeticion 1 de la rutina
-                                inicioHours1: selectedInicioHour1,
-                                inicioMinutes1: selectedInicioMinutes1,
-                                finHours1: selectedFinHours1,
-                                finMinutes1: selectedFinMinutes1,
+                                inicioHours1: this.state.selectedInicioHours1,
+                                inicioMinutes1: this.state.selectedInicioMinutes1,
+                                finHours1: this.state.selectedFinHours1,
+                                finMinutes1: this.state.selectedFinMinutes1,
 
+
+                                //se manda la info del tiempo de inicio y salida de la repeticion 2 de la rutina
+                                inicioHours2: this.state.selectedInicioHours2,
+                                inicioMinutes2: this.state.selectedInicioMinutes2,
+                                finHours2: this.state.selectedFinHours2,
+                                finMinutes2: this.state.selectedFinMinutes2,
                                 } 
                               )
-                              } }
+                              console.log('lo que se esta mandando');
+                              console.log('inicio: '+selectedInicioHours1);
+                              } 
+                            
+                            }
                               style={{fontSize: 15, color: '#f2f4fc'}}
                               containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
                     >
@@ -1799,7 +1830,8 @@ var tiempoDespuesNot;
                               <TrophyIcon name='trophy' size={15} color= 'gold'>
                               </TrophyIcon>
                     </Button>
-
+                  <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+                </Grid>
 
             </View>
 
@@ -1845,7 +1877,10 @@ var tiempoDespuesNot;
         }  
      }
 
+     const weekList = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
 
+
+      //esta pantalla esta encargada de seleccionar que dias de la semana la rutina ocurrira
      class pantallaCrearRutina4 extends Component {
       static navigationOptions = {
         title: 'Crear Rutina',
@@ -1875,8 +1910,12 @@ var tiempoDespuesNot;
       constructor(props){
         super(props);
         this.state = {
-          repeticionesPorDia: 1,
+          selectedDays: []
         };
+      }
+
+      onSelectionsChange = (selectedDays) => {
+        this.setState({ selectedDays })
       }
 
         render(){
@@ -1889,7 +1928,18 @@ var tiempoDespuesNot;
           const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
           const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
           const usuariId = navigation.getParam('usuariId','dvalue');
-          var repPorDia;
+          const vecesPorDia = navigation.getParam('vecesPorDia','dddddValue');
+          const inicioHours1 = navigation.getParam('inicioHours1','defaultvalue');
+          const inicioMinutes1 = navigation.getParam('inicioMinutes1','defaultvalue');
+          const finHours1 = navigation.getParam('finHours1','dddddefffvalue');
+          const finMinutes1 = navigation.getParam('finMinutes1','aDefaultValueForMe');
+          const inicioHours2 = navigation.getParam('inicioHours2','aDefaultValueForMe');
+          const inicioMinutes2 = navigation.getParam('inicioMinutes2','aDefaultValueForMe');
+          const finHours2 = navigation.getParam('finHours2','aDefaultValueForMe');
+          const finMinutes2 = navigation.getParam('finMinutes2','aDefaultValueForMe');
+
+
+
           return(
      <Container>
     
@@ -1900,7 +1950,17 @@ var tiempoDespuesNot;
           <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
           </Grid>
 
-            <Text style={styles.welcomeText}> Indique cuantas veces por dia se repetira la rutina: {nombreRut} </Text> 
+            <Text style={styles.welcomeText}> En esta pantalla se elegiran los dias de la semana que la rutina ocurrira: {nombreRut} </Text> 
+
+            <Text> 1era repeticion </Text>
+            <Text> Tiempo de inicio {inicioHours1}:{inicioMinutes1} </Text>
+            <Text> Tiempo de fin  {finHours1}:{finMinutes1}</Text>
+
+
+            <Text> 2da repeticion </Text>
+            <Text> Tiempo de inicio {inicioHours2}:{inicioMinutes2} </Text>
+            <Text> Tiempo de fin  {finHours2}:{finMinutes2}</Text>
+
 
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
@@ -1915,40 +1975,104 @@ var tiempoDespuesNot;
                 </Picker>
 
             <Grid>
+              <SelectMultiple
+              items={weekList}
+              selectedItems={this.state.selectedDays}
+              onSelectionsChange={this.onSelectionsChange}
+              />
+
+              </Grid>
+
+
+
+
+            <Grid>
                 <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
                     <Button 
                               onPress= {() => {
-                                repPorDia = this.state.repeticionesPorDia;
-                                this.props.navigation.navigate('crearRutina3',
-                                {
-                                nombreRut: nombreRut, 
-                                numeroPriorRut: numeroPriorRut,
-                                nameUser: nameUser,
-                                metaId: metaId,
-                                tiempoAntesNot: tiempoAntesNot,
-                                tiempoDespuesNot: tiempoDespuesNot,
-                                usuariId: usuariId,
-                                vecesPorDia: repPorDia,
-                                } 
-                              )
-                              } }
-                              style={{fontSize: 15, color: '#f2f4fc'}}
+                                  //Crear la rutina en base de datos
+
+
+
+
+
+
+/*
+                                  const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
+                                  const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
+                                  const nameUser = navigation.getParam('nameUser','aDeffValue');
+                                  const metaId = navigation.getParam('metaId', 'aDefffValue');
+                                  const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
+                                  const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
+                                  const usuariId = navigation.getParam('usuariId','dvalue');
+                                  const vecesPorDia = navigation.getParam('vecesPorDia','dddddValue');
+                                  const inicioHours1 = navigation.getParam('inicioHours1','defaultvalue');
+                                  const inicioMinutes1 = navigation.getParam('inicioMinutes1','defaultvalue');
+                                  const finHours1 = navigation.getParam('finHours1','dddddefffvalue');
+                                  const finMinutes1 = navigation.getParam('finMinutes1','aDefaultValueForMe');
+                                  const inicioHours2 = navigation.getParam('inicioHours2','aDefaultValueForMe');
+                                  const inicioMinutes2 = navigation.getParam('inicioMinutes2','aDefaultValueForMe');
+                                  const finHours2 = navigation.getParam('finHours2','aDefaultValueForMe');
+                                  const finMinutes2 = navigation.getParam('finMinutes2','aDefaultValueForMe');
+
+*/
+
+
+                                  firebase.database().ref('Rutinas/').once('value').then(snapshot => {
+                                    //en snapshot tengo la data.
+                                    //Ahora quiero saber cual es la rutina con mayor numero de id,
+                                    //para la cual coloca sea mayor en 1
+            
+                                    myObj = snapshot.val();
+            
+                                    var codigoNuevaRutina=0;
+                                    for(x in myObj)
+                                    { 
+                                      if(codigoNuevaRutina<=parseInt(x))
+                                      {
+                                        codigoNuevaRutina=parseInt(x);
+                                      }
+                                    }
+                                    codigoNuevaRutina=codigoNuevaRutina+1;
+
+                                  firebase.database().ref('Rutinas/'+codigoNuevaRutina).set({
+                                    nombre: nombreRut,
+                                    numeroPrior: numeroPriorRut,         
+                                    tiempoAntesNot: tiempoAntesNot,
+                                    tiempoDespuesNot: tiempoDespuesNot,
+                                    metaId: metaId,
+                                    usuariCreadorId: usuariId,
+                                    inicioHours1: inicioHours1,
+                                    inicioMinutes1: inicioMinutes1,
+                                    finHours1: finHours1,
+                                    finMinutes1: finMinutes1,
+                                    inicioHours2: inicioHours2,
+                                    inicioMinutes2: inicioMinutes2,
+                                    finHours2: finHours2,
+                                    finMinutes2: finMinutes2,
+                                    vecesPorDia: vecesPorDia
+                                  });
+                              })
+                             }
+                            }
+                            style={{fontSize: 15, color: '#f2f4fc'}}
                               containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
-                    >
-                              Continuar {space}
-                              <TrophyIcon name='trophy' size={15} color= 'gold'>
-                              </TrophyIcon>
-                    </Button>
-                    <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
-          </Grid>
+
+                            >
+                            Crear Rutina {space}
+                            <TrophyIcon name='trophy' size={15} color= 'gold'>
+                            </TrophyIcon>
+                  </Button>
+                  <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+        </Grid>
+                        
+
        </Form>
      </Content>         
     </Container>
           );
         }  
      }
-
-
 
 
   class login extends Component {
