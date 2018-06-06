@@ -1493,26 +1493,12 @@ var tiempoDespuesNot;
 </View>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   <View>
-
-
                   {
+                    //se usa operador ternario
+                    //showSecond indica si se muestra o no el 2do tiempo de la rutina
                     showSecond ? 
-                  <View style={{height: 200, width: 300}}>
+                  <View style={{height: 500, width: 300}}>
 
                   <Text style={{fontSize: 25, color: '#525D3B', fontWeight: 'bold'}}> 2da </Text>
 
@@ -1631,9 +1617,188 @@ var tiempoDespuesNot;
                 <Picker.Item label='58' value = '58' />
                 <Picker.Item label='59' value = '59' />
               </Picker>
-              </View>
+
+
+                  <Text style={{fontSize: 15, color: '#525D3B', fontWeight: 'bold'}}> Fin </Text>
+
+                  <Text style={{fontSize: 25, color: '#525D3B',
+                              fontWeight: 'bold'
+                  }}> {this.state.selectedFinHours2}:{this.state.selectedFinMinutes2} </Text>
+
+                  <Text style={{color: '#525D3B'}}> Hora </Text>
+                  <Picker
+                  selectedValue={this.state.selectedFinHours2}        
+                  onValueChange={(itemValue, itemIndex) => {
+                    this.setState({
+                      selectedFinHours2: itemValue
+                    })
+                    selectedFinHours2=itemValue;
+                  } }
+                  >
+                  <Picker.Item label='0' value = '0' />
+                  <Picker.Item label='1' value = '1' />
+                  <Picker.Item label='2' value = '2' />
+                  <Picker.Item label='3' value = '3' />
+                  <Picker.Item label='4' value = '4' />
+                  <Picker.Item label='5' value = '5' />
+                  <Picker.Item label='6' value = '6' />
+                  <Picker.Item label='7' value = '7' />
+                  <Picker.Item label='8' value = '8' />
+                  <Picker.Item label='9' value = '9' />
+                  <Picker.Item label='10' value = '10' />
+                  <Picker.Item label='11' value = '11' />
+                  <Picker.Item label='12' value = '12' />
+                  <Picker.Item label='13' value = '13' />
+                  <Picker.Item label='14' value = '14' />
+                  <Picker.Item label='15' value = '15' />
+                  <Picker.Item label='16' value = '16' />
+                  <Picker.Item label='17' value = '17' />
+                  <Picker.Item label='18' value = '18' />
+                  <Picker.Item label='19' value = '19' />
+                  <Picker.Item label='20' value = '20' />
+                  <Picker.Item label='21' value = '21' />
+                  <Picker.Item label='22' value = '22' />
+                  <Picker.Item label='23' value = '23' />
+                  </Picker>
+
+
+                  <Text style={{color: '#525D3B'}}> Minuto </Text>
+                  <Picker
+                  selectedValue={this.state.selectedFinMinutes2}        
+                  onValueChange={(itemValue, itemIndex) => {
+                    this.setState({
+                      selectedFinMinutes2: itemValue
+                    })
+                    selectedFinMinutes2=itemValue;
+                  } }
+                  >
+                  <Picker.Item label='0' value = '0' />
+                  <Picker.Item label='1' value = '1' />
+                  <Picker.Item label='2' value = '2' />
+                  <Picker.Item label='3' value = '3' />
+                  <Picker.Item label='4' value = '4' />
+                  <Picker.Item label='5' value = '5' />
+                  <Picker.Item label='6' value = '6' />
+                  <Picker.Item label='7' value = '7' />
+                  <Picker.Item label='8' value = '8' />
+                  <Picker.Item label='9' value = '9' />
+                  <Picker.Item label='10' value = '10' />
+                  <Picker.Item label='11' value = '11' />
+                  <Picker.Item label='12' value = '12' />
+                  <Picker.Item label='13' value = '13' />
+                  <Picker.Item label='14' value = '14' />
+                  <Picker.Item label='15' value = '15' />
+                  <Picker.Item label='16' value = '16' />
+                  <Picker.Item label='17' value = '17' />
+                  <Picker.Item label='18' value = '18' />
+                  <Picker.Item label='19' value = '19' />
+                  <Picker.Item label='20' value = '20' />
+                  <Picker.Item label='21' value = '21' />
+                  <Picker.Item label='22' value = '22' />
+                  <Picker.Item label='23' value = '23' />
+                  <Picker.Item label='24' value = '24' />
+                  <Picker.Item label='25' value = '25' />
+                  <Picker.Item label='26' value = '26' />
+                  <Picker.Item label='27' value = '27' />
+                  <Picker.Item label='28' value = '28' />
+                  <Picker.Item label='29' value = '29' />
+                  <Picker.Item label='30' value = '30' />
+                  <Picker.Item label='31' value = '31' />
+                  <Picker.Item label='32' value = '32' />
+                  <Picker.Item label='33' value = '33' />
+                  <Picker.Item label='34' value = '34' />
+                  <Picker.Item label='35' value = '35' />
+                  <Picker.Item label='36' value = '36' />
+                  <Picker.Item label='37' value = '37' />
+                  <Picker.Item label='38' value = '38' />
+                  <Picker.Item label='39' value = '39' />
+                  <Picker.Item label='40' value = '40' />
+                  <Picker.Item label='41' value = '41' />
+                  <Picker.Item label='42' value = '42' />
+                  <Picker.Item label='43' value = '43' />
+                  <Picker.Item label='44' value = '44' />
+                  <Picker.Item label='45' value = '45' />
+                  <Picker.Item label='46' value = '46' />
+                  <Picker.Item label='47' value = '47' />
+                  <Picker.Item label='48' value = '48' />
+                  <Picker.Item label='49' value = '49' />
+                  <Picker.Item label='50' value = '50' />
+                  <Picker.Item label='51' value = '51' />
+                  <Picker.Item label='52' value = '52' />
+                  <Picker.Item label='53' value = '53' />
+                  <Picker.Item label='54' value = '54' />
+                  <Picker.Item label='55' value = '55' />
+                  <Picker.Item label='56' value = '56' />
+                  <Picker.Item label='57' value = '57' />
+                  <Picker.Item label='58' value = '58' />
+                  <Picker.Item label='59' value = '59' />
+                  </Picker>
+
+                  </View>
+
+
               : null
             } 
+
+            {/* datos para mandar, sirve de guia 
+              const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
+          const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
+          const nameUser = navigation.getParam('nameUser','aDeffValue');
+          const metaId = navigation.getParam('metaId', 'aDefffValue');
+          const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
+          const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
+          const usuariId = navigation.getParam('usuariId','dvalue');
+          const vecesPorDia = navigation.getParam('vecesPorDia','dVValue');
+
+          var selectedInicioHours1 = 0;
+          var selectedInicioMinutes1 = 0;
+          var selectedFinHours1 = 0;
+          var selectedFinMinutes1 = 0;
+
+          var selectedInicioHours2 = 0;
+          var selectedInicioMinutes2 = 0;
+          var selectedFinHours2 = 0;
+          var selectedFinMinutes2 = 0;
+
+            */}
+
+            {/*Boton para continuar proceso de creacion de rutinas
+            se pasan todos los parametros, el siguiente paso es preguntar los dias de la semana los cuales las rutinas
+            se activaran
+            */}
+            <Button 
+                              onPress= {() => {
+                                repPorDia = this.state.repeticionesPorDia;
+                                this.props.navigation.navigate('crearRutina4',
+                                {
+                                nombreRut: nombreRut, 
+                                numeroPriorRut: numeroPriorRut,
+                                nameUser: nameUser,
+                                metaId: metaId,
+                                tiempoAntesNot: tiempoAntesNot,
+                                tiempoDespuesNot: tiempoDespuesNot,
+                                usuariId: usuariId,
+                                //si es 1 es la rutina solo ocurre una vez por dia
+                                //si es 2 es que la rutina ocurre 2 veces por dia
+                                vecesPorDia: vecesPorDia,
+
+                                
+                                //se manda la info del tiempo de inicio y de salida de la repeticion 1 de la rutina
+                                inicioHours1: selectedInicioHour1,
+                                inicioMinutes1: selectedInicioMinutes1,
+                                finHours1: selectedFinHours1,
+                                finMinutes1: selectedFinMinutes1,
+
+                                } 
+                              )
+                              } }
+                              style={{fontSize: 15, color: '#f2f4fc'}}
+                              containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                              Continuar {space}
+                              <TrophyIcon name='trophy' size={15} color= 'gold'>
+                              </TrophyIcon>
+                    </Button>
 
 
             </View>
@@ -1679,6 +1844,111 @@ var tiempoDespuesNot;
           );
         }  
      }
+
+
+     class pantallaCrearRutina4 extends Component {
+      static navigationOptions = {
+        title: 'Crear Rutina',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: <Button
+        onPress= {() => {
+                          //Cerrando sesion
+                          firebase.auth().signOut().then(() =>{
+                            console.log('we have logged out');
+                            //al cerrar sesion se va hacia la pagina principal
+                            navigation.navigate('Home');
+                          });
+                        } 
+                  }
+      >
+                        <LogOutIcon name='log-out' size={20} color='white'>
+                        </LogOutIcon>
+      </Button>,
+    };
+  
+      constructor(props){
+        super(props);
+        this.state = {
+          repeticionesPorDia: 1,
+        };
+      }
+
+        render(){
+          var space = ' ';
+          const { navigation } = this.props;
+          const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
+          const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
+          const nameUser = navigation.getParam('nameUser','aDeffValue');
+          const metaId = navigation.getParam('metaId', 'aDefffValue');
+          const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
+          const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
+          const usuariId = navigation.getParam('usuariId','dvalue');
+          var repPorDia;
+          return(
+     <Container>
+    
+     <Content style= {styles.content}>
+       <Form>
+          
+          <Grid>
+          <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
+          </Grid>
+
+            <Text style={styles.welcomeText}> Indique cuantas veces por dia se repetira la rutina: {nombreRut} </Text> 
+
+          <Grid>
+            <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
+          </Grid>
+
+              <Picker
+                selectedValue={this.state.repeticionesPorDia}        
+                onValueChange={(itemValue, itemIndex) =>  this.setState({repeticionesPorDia: itemValue}) }
+              >
+              <Picker.Item label='1' value = '1' />
+              <Picker.Item label='2' value = '2' />
+                </Picker>
+
+            <Grid>
+                <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+                    <Button 
+                              onPress= {() => {
+                                repPorDia = this.state.repeticionesPorDia;
+                                this.props.navigation.navigate('crearRutina3',
+                                {
+                                nombreRut: nombreRut, 
+                                numeroPriorRut: numeroPriorRut,
+                                nameUser: nameUser,
+                                metaId: metaId,
+                                tiempoAntesNot: tiempoAntesNot,
+                                tiempoDespuesNot: tiempoDespuesNot,
+                                usuariId: usuariId,
+                                vecesPorDia: repPorDia,
+                                } 
+                              )
+                              } }
+                              style={{fontSize: 15, color: '#f2f4fc'}}
+                              containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+                    >
+                              Continuar {space}
+                              <TrophyIcon name='trophy' size={15} color= 'gold'>
+                              </TrophyIcon>
+                    </Button>
+                    <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
+          </Grid>
+       </Form>
+     </Content>         
+    </Container>
+          );
+        }  
+     }
+
+
 
 
   class login extends Component {
@@ -2230,6 +2500,7 @@ var tiempoDespuesNot;
       crearRutina: pantallaCrearRutina,
       crearRutina2: pantallaCrearRutina2,
       crearRutina3: pantallaCrearRutina3,
+      crearRutina4: pantallaCrearRutina4,
     },
     {
       initialRouteName: 'Home',
