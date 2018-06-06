@@ -1993,31 +1993,6 @@ var tiempoDespuesNot;
                                   //Crear la rutina en base de datos
 
 
-
-
-
-
-/*
-                                  const nombreRut = navigation.getParam('nombreRut', 'aDefValue');
-                                  const numeroPriorRut = navigation.getParam('numeroPriorRut','aDefVal');
-                                  const nameUser = navigation.getParam('nameUser','aDeffValue');
-                                  const metaId = navigation.getParam('metaId', 'aDefffValue');
-                                  const tiempoAntesNot = navigation.getParam('tiempoAntesNot', 'aDefValue');
-                                  const tiempoDespuesNot = navigation.getParam('tiempoDespuesNot','defvALLL');
-                                  const usuariId = navigation.getParam('usuariId','dvalue');
-                                  const vecesPorDia = navigation.getParam('vecesPorDia','dddddValue');
-                                  const inicioHours1 = navigation.getParam('inicioHours1','defaultvalue');
-                                  const inicioMinutes1 = navigation.getParam('inicioMinutes1','defaultvalue');
-                                  const finHours1 = navigation.getParam('finHours1','dddddefffvalue');
-                                  const finMinutes1 = navigation.getParam('finMinutes1','aDefaultValueForMe');
-                                  const inicioHours2 = navigation.getParam('inicioHours2','aDefaultValueForMe');
-                                  const inicioMinutes2 = navigation.getParam('inicioMinutes2','aDefaultValueForMe');
-                                  const finHours2 = navigation.getParam('finHours2','aDefaultValueForMe');
-                                  const finMinutes2 = navigation.getParam('finMinutes2','aDefaultValueForMe');
-
-*/
-
-
                                   firebase.database().ref('Rutinas/').once('value').then(snapshot => {
                                     //en snapshot tengo la data.
                                     //Ahora quiero saber cual es la rutina con mayor numero de id,
@@ -2035,6 +2010,15 @@ var tiempoDespuesNot;
                                     }
                                     codigoNuevaRutina=codigoNuevaRutina+1;
 
+
+                                    //mostrar los dias de la semana
+                                    console.log(this.state.selectedDays);
+
+
+
+                                    //como poner los dias de la semana
+
+                                    /*
                                   firebase.database().ref('Rutinas/'+codigoNuevaRutina).set({
                                     nombre: nombreRut,
                                     numeroPrior: numeroPriorRut,         
@@ -2052,6 +2036,7 @@ var tiempoDespuesNot;
                                     finMinutes2: finMinutes2,
                                     vecesPorDia: vecesPorDia
                                   });
+                                  */
                               })
                              }
                             }
