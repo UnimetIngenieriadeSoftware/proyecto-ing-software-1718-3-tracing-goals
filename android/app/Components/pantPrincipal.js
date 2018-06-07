@@ -686,10 +686,6 @@ static navigationOptions = {
         }
       }
 
-/*
-      control slash (se te pone editor de texto)
-*/
-
 
 class pantMostrarMetaIndividual extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -837,7 +833,7 @@ class pantMostrarMetaIndividual extends Component {
         </Grid>
 
       <Grid>
-      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 112}}></Col>
+      <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 40}}></Col>
 
         <Button 
                       onPress= {() => {
@@ -860,13 +856,284 @@ class pantMostrarMetaIndividual extends Component {
                       </CalendarIcon>
             </Button>
 
-        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 124}}></Col>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 50, width: 10}}></Col>
+
+          <Button 
+                      onPress= {() => {
+
+                      this.props.navigation.navigate('rutinasCreadas',
+                      {
+                      daEmail: daEmail, 
+                      usuariId: usuariId,
+                      nameUser: nameUser,
+                      metaId: keyMeta,
+                      nombreMeta: nombMeta,
+                      } 
+                    )
+                      } 
+                    }
+                      style={{fontSize: 15, color: '#f2f4fc'}}
+                      containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
+            >
+                      Mostrar Rutinas {space}  
+                      <CalendarIcon name='calendar' size={15} color= 'gold'>
+                      </CalendarIcon>
+            </Button>
+
+
+
+
         </Grid>
  </Content>         
 </Container>
       );
     }
   }
+
+  var laMetId;
+
+  class pantallaRutinasCreadas extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        //title: 'Email is: ' + navigation.state.params.emaill ,
+        title: 'Metas Creadas',
+        headerStyle: {
+          backgroundColor: '#525D3B',
+        },
+        headerTintColor: '#f2f4fc',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerRight: <Button
+                onPress= {() => {
+                                  //Cerrando sesion
+                                  firebase.auth().signOut().then(() =>{
+                                    console.log('we have logged out');
+                                    //al cerrar sesion se va hacia la pagina principal
+                                    navigation.navigate('Home');
+                                  });
+                                } 
+                          }
+              >
+                                <LogOutIcon name='log-out' size={20} color='white'>
+                                </LogOutIcon>
+              </Button>,
+    });
+    constructor(props){
+      super(props);
+      this.state = {
+        //Esta loggeado o no
+        //lo deje hasta aqui.
+        //Quiero mostrar y no mostrar los botones cuando el usuario este loggeado o no
+        isSignedIn: false,
+        correo: '',
+        data: [],
+        elUserId: '',
+      };
+    }
+
+    _keyExtractor = (item, index) => item.key;
+
+    componentDidMount(){
+
+      //se necesita poner en los datos en state los valores de la rutina
+
+      firebase.database().ref('Rutinas/').once('value', snapshot => {
+        var ellObj = snapshot.val();
+        var anArray = [];
+        console.log(ellObj);
+        for(x in ellObj)
+        {
+          console.log(ellObj[x]);
+          if(ellObj[x].metaId==laMetId)
+          {
+              anArray.push(ellObj[x]);
+          }
+        }
+        console.log('here');
+        this.setState({
+          data: anArray
+        });
+        console.log('aqui esta la data');
+        console.log(this.state.data);
+
+      });
+    }
+
+    //como se muestra cada item de la FlatList para cada meta
+    
+
+
+    //antes se usaba el renderitem en una funcion aparte
+    //se cambio debido a que hay que usar navigation y mandar variables
+    //que no son accesibles aqui
+    /*
+    renderItem = ({ item }) => (
+        <ListItem
+        title={item.nombre}
+        subtitle= {'Prioridad: ' + item.numeroPrioridad}
+        rightIcon={
+        
+          <Button
+          onPress= {() => {
+            //cuando este boton este presionado se tiene que ir a una seccion donde
+            //se muestre la meta con toda su informacion, y todas sus rutinas asociadas
+
+            //hay que enviar email del usuario, usuarioid, y key de la meta
+            this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, keyMeta: item.key })
+            } }
+          >
+            <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
+          </Button>
+      }
+        />
+    )
+*/
+
+
+
+      render(){
+        let space = ' '; 
+        const { navigation } = this.props;
+        const daEmail = navigation.getParam('daEmail', 'aDefaultValue');
+        const usuariId = navigation.getParam('usuariId', 'anotherDefaultValue');
+        const nameUser = navigation.getParam('nameUser', 'aDefaultValue');
+        const metaId = navigation.getParam('metaId','defValue');
+        const nombreMeta = navigation.getParam('nombreMeta','deffvalue');
+
+
+        laMetId=metaId;
+
+
+        return(
+   <Container>
+   <Content style= {styles.content}>
+  
+
+  <Grid>
+    <Col style={{ backgroundColor: '#f2f4fc', height: 15, width: width}}></Col>
+  </Grid>
+
+           <Grid>
+        <Col style={{ backgroundColor: '#f2f4fc', height: 65, width: 50}}></Col>
+
+        <BarGraphIcon name='bar-graph' size={45} color= 'blue'>
+        </BarGraphIcon>
+
+        <CalendarIcon name='calendar' size={45} color= 'gold'>
+        </CalendarIcon>
+
+        <StarIcon name='star-circle' size={45} color= 'dodgerblue'>
+        </StarIcon>
+
+        <GraduationCap name='graduation-cap' size={45} color='black'>
+        </GraduationCap>
+
+        <BookIcon name='open-book' size={45} color= 'darkolivegreen'>
+        </BookIcon>
+
+        <ComputerIcon name='md-desktop' size={45} color='deepskyblue'>
+        </ComputerIcon>
+        
+        <Col style={{ backgroundColor: '#f2f4fc', height: 70, width: 49}}></Col>
+  </Grid>
+
+
+
+
+
+
+          <Text style={styles.welcomeText}> Hola {nameUser}, estas son las metas existentes </Text>
+
+
+          <View style={{height: 300}}>
+
+<FlatList
+data={this.state.data}
+renderItem={//this.renderItem
+  //la funcion renderItem tiene que estar aqui ya que se usa navigation
+  //y dentro de navigation se mandan el email, usuarioid y nombre usuario
+  ({item}) => {
+    //cuando la funcion renderitem se usa aqui hay que agregar un return()
+                  return(
+                          <ListItem
+                          //se desea agrandar un poco el title
+                            title=//{item.nombre}
+                            {
+                              <View>
+                                <Text style={{fontSize: 17, textAlign: 'left',
+                                fontWeight: 'bold',color: '#525D3B'}}> {item.nombre} </Text>
+                              </View>
+                            }
+
+
+
+
+                            subtitle= //{'Prioridad: ' + item.numeroPrioridad}
+                            {
+                              <View>
+                                <Text style={{fontSize: 12, textAlign: 'left',
+                                fontWeight: '300', color: '#525D3B'}}> {'Prioridad: ' + item.numPrior} </Text>
+                              </View>
+                            }
+
+                            rightIcon={
+                                  
+                                      <Button
+                                        onPress= {() => {
+                                          
+
+
+                                          //cuando este boton se presione se tiene que ir a una pantalla que sea de mostrar
+                                          //la rutina
+
+                                          firebase.database().ref('Rutinas/'+item.key).once('value', snapshot => {
+                                          
+                                          var dData = snapshot.val();
+                                          
+                                        this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyMeta: item.key,
+                                        descripcionMeta: dData.descripcion, fechaCulminacion: dData.fechaCulminacion, nombreMeta: dData.nombre, numeroPriorid: dData.numeroPrioridad
+                                      })
+                                          
+                                          
+                                          });
+                                                        }
+                                                }
+                                      >
+                                      <ArrowRight name='arrow-right' size={26} color='darkolivegreen' > </ArrowRight>
+                                    </Button>
+                                      }
+                          />
+                        )
+              }
+
+//como se mostraba la lista de metas en el sprint 1
+/*
+  <Grid>
+    <Col style={{ backgroundColor: '#f2f4fc', height: 150, width: width}}>
+    <Text style={styles.item}> ID:{item.key}</Text>
+  
+    <Text style={styles.item}> Nombre: {spaceX} {item.nombre}</Text>
+
+    <Text style={styles.item}> Descripcion: {spaceX} {item.descripcion} </Text>
+    <Text style={styles.item}> Fecha culminacion: {spaceX} {item.fechaCulminacion} </Text>
+    <Text style={styles.item}> Numero prioridad: {spaceX} {item.numeroPrioridad} </Text>
+    </Col>
+  </Grid>
+  */
+  }
+  keyExtractor={this._keyExtractor}
+/>
+
+    </View>
+
+        
+   </Content>         
+  </Container>
+        );
+      }
+    }
+
+
 
 
 
@@ -1950,29 +2217,11 @@ var tiempoDespuesNot;
           <Col style={{ backgroundColor: '#f2f4fc', height: 20, width: width}}></Col>
           </Grid>
 
-            <Text style={styles.welcomeText}> En esta pantalla se elegiran los dias de la semana que la rutina ocurrira: {nombreRut} </Text> 
-
-            <Text> 1era repeticion </Text>
-            <Text> Tiempo de inicio {inicioHours1}:{inicioMinutes1} </Text>
-            <Text> Tiempo de fin  {finHours1}:{finMinutes1}</Text>
-
-
-            <Text> 2da repeticion </Text>
-            <Text> Tiempo de inicio {inicioHours2}:{inicioMinutes2} </Text>
-            <Text> Tiempo de fin  {finHours2}:{finMinutes2}</Text>
-
+            <Text style={styles.welcomeText}> Eliga los dias de la semana en los cuales la rutina ocurrira  </Text> 
 
           <Grid>
             <Col style={{ backgroundColor: '#f2f4fc', height: 35, width: width}}></Col>
           </Grid>
-
-              <Picker
-                selectedValue={this.state.repeticionesPorDia}        
-                onValueChange={(itemValue, itemIndex) =>  this.setState({repeticionesPorDia: itemValue}) }
-              >
-              <Picker.Item label='1' value = '1' />
-              <Picker.Item label='2' value = '2' />
-                </Picker>
 
             <Grid>
               <SelectMultiple
@@ -1982,10 +2231,6 @@ var tiempoDespuesNot;
               />
 
               </Grid>
-
-
-
-
             <Grid>
                 <Col style={{ backgroundColor: '#f2f4fc', height: 140, width: 119}}></Col>
                     <Button 
@@ -2012,13 +2257,63 @@ var tiempoDespuesNot;
 
 
                                     //mostrar los dias de la semana
-                                    console.log(this.state.selectedDays);
+                                    //poner en 1 los dias de la semana que se hayan elegido
+                                    //poner en 0 los dias de la semana que no se hayan elegido
+                                    //guardar en una lista todos los dias de la semana en que ocurrira la rutina
+                                    
 
+                                    var obj = this.state.selectedDays;
+                                    var newObj = [];
 
+                                    for(x in obj)
+                                    {
+                                      newObj.push(obj[x].value);
+                                    }
+                                    console.log(newObj);
 
-                                    //como poner los dias de la semana
+                                    //en newObj esta la lista de dias en los cuales se realizara la rutina
+                                    //los dias que estan ahi son los dias los cuales deben estar en 1 en firebase
+                                    //creo 7 variables
+                                    var lun=0, mar=0, mie=0, jue=0, vie=0, sab=0, dom=0;
 
-                                    /*
+                                    for(x in newObj)
+                                    {
+                                      if(newObj[x]=='Lunes')
+                                      {
+                                        lun=1;
+                                      }else {
+                                        if(newObj[x]=='Martes')
+                                        {
+                                          mar=1;
+                                        } else {
+                                          if(newObj[x]=='Miercoles')
+                                          {
+                                            mie=1;
+                                          } else {
+                                            if(newObj[x]=='Jueves')
+                                            {
+                                              jue=1;
+                                            } else {
+                                              if(newObj[x]=='Viernes')
+                                              {
+                                                vie=1;
+                                              } else {
+                                                if(newObj[x]=='Sabado')
+                                                {
+                                                  sab=1;
+                                                } else {
+                                                  if(newObj[x]=='Domingo')
+                                                  {
+                                                    dom=1;
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }//fin del for
+
                                   firebase.database().ref('Rutinas/'+codigoNuevaRutina).set({
                                     nombre: nombreRut,
                                     numeroPrior: numeroPriorRut,         
@@ -2034,15 +2329,22 @@ var tiempoDespuesNot;
                                     inicioMinutes2: inicioMinutes2,
                                     finHours2: finHours2,
                                     finMinutes2: finMinutes2,
-                                    vecesPorDia: vecesPorDia
+                                    vecesPorDia: vecesPorDia,
+                                    lunes: lun,
+                                    martes: mar,
+                                    miercoles: mie,
+                                    jueves: jue,
+                                    viernes: vie,
+                                    sabado: sab,
+                                    domingo: dom,
+                                    key: codigoNuevaRutina
                                   });
-                                  */
                               })
+                              navigation.navigate('Home3');
                              }
                             }
                             style={{fontSize: 15, color: '#f2f4fc'}}
                               containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 15, backgroundColor: '#525D3B'}}
-
                             >
                             Crear Rutina {space}
                             <TrophyIcon name='trophy' size={15} color= 'gold'>
@@ -2610,6 +2912,7 @@ var tiempoDespuesNot;
       crearRutina2: pantallaCrearRutina2,
       crearRutina3: pantallaCrearRutina3,
       crearRutina4: pantallaCrearRutina4,
+      rutinasCreadas: pantallaRutinasCreadas,
     },
     {
       initialRouteName: 'Home',
