@@ -1072,7 +1072,7 @@ renderItem={//this.renderItem
                             {
                               <View>
                                 <Text style={{fontSize: 12, textAlign: 'left',
-                                fontWeight: '300', color: '#525D3B'}}> {'Prioridad: ' + item.numPrior} </Text>
+                                fontWeight: '300', color: '#525D3B'}}> {'Prioridad: ' + item.numeroPrior} </Text>
                               </View>
                             }
 
@@ -1090,7 +1090,7 @@ renderItem={//this.renderItem
                                           
                                           var dData = snapshot.val();
                                           
-                                        this.props.navigation.navigate('mostrarLaMeta', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyMeta: item.key,
+                                        this.props.navigation.navigate('mostrarLaRutina', { emaill: daEmail, usuariId: usuariId, nameUser: nameUser, keyRutina: item.key,
                                         descripcionMeta: dData.descripcion, fechaCulminacion: dData.fechaCulminacion, nombreMeta: dData.nombre, numeroPriorid: dData.numeroPrioridad
                                       })
                                           
@@ -2319,7 +2319,7 @@ var tiempoDespuesNot;
                                     numeroPrior: numeroPriorRut,         
                                     tiempoAntesNot: tiempoAntesNot,
                                     tiempoDespuesNot: tiempoDespuesNot,
-                                    metaId: metaId,
+                                    metaId: parmetaId,
                                     usuariCreadorId: usuariId,
                                     inicioHours1: inicioHours1,
                                     inicioMinutes1: inicioMinutes1,
